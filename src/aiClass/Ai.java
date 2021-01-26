@@ -155,7 +155,7 @@ public class Ai {
    * Makes sure that AI-players decision from last this isnt making a problem for current turns
    * decision.
    * 
-   * @param resets whatToDo.
+   * @param reset whatToDo.
    */
   public void setDecision(String reset) {
 
@@ -189,7 +189,7 @@ public class Ai {
    * If ai-player wins the round this gets updated with the winning amount added to its current
    * potsize.
    * 
-   * @param Updates the Ai's pot Size if it would win.
+   * @param aiPot the Ai's pot Size if it would win.
    */
   public void updateWinner(int aiPot) {
 

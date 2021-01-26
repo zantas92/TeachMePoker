@@ -38,11 +38,10 @@ public class WinnerBox {
 	 */
 	public boolean displayWinner(String title, String message, int nr, String handStrength) {
 		
-		String aiWin = new String("Rundan vanns av " + message + " som hade " + handStrength);
-		String playerWin = new String("Grattis " + message + ", du vann den här rundan! Du vann med " + handStrength);
-		String playerWinAIFold = new String("Grattis " + message + ". " + handStrength);
-		String aiWinOthersFold = new String("Rundan vanns av " + message + " " + handStrength);
-		String playerLose = new String (message);
+		String aiWin = "Rundan vanns av " + message + " som hade " + handStrength;
+		String playerWin = "Grattis " + message + ", du vann den här rundan! Du vann med " + handStrength;
+		String playerWinAIFold = "Grattis " + message + ". " + handStrength;
+		String aiWinOthersFold = "Rundan vanns av " + message + " " + handStrength;
 		
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle(title);
@@ -67,7 +66,7 @@ public class WinnerBox {
 		messageText.setText(aiWinOthersFold);
 		}
 		else if (nr == 5){
-			messageText.setText(playerLose);
+			messageText.setText(message);
 		}
 		
 		btnOk.setOnMouseReleased(e -> {

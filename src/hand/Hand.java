@@ -54,7 +54,7 @@ public class Hand {
 		for (int i = 0; i < cards.size(); i++) {
 			Card cardTemp = cards.get(i);
 			char A = cardTemp.getCardSuit().charAt(0);
-			String temp = cardTemp.getCardValue() + "," + String.valueOf(A);
+			String temp = cardTemp.getCardValue() + "," + (A);
 			aiCards.add(temp);
 		}
 	}

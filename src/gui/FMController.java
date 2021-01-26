@@ -16,21 +16,15 @@ import javafx.scene.image.ImageView;
 
 public class FMController {
 
-	private ChangeScene changeScene;
+	private ChangeScene sceneChanger;
 	private Sound sound;
-	@FXML
-	private TextField tfNameInput;
-	@FXML
-	private ImageView ivNewGame;
-	@FXML
-	private ImageView ivLoadGame;
 
 	/**
 	 * Generated method for the FXML.
 	 * 
 	 * @throws Exception
 	 */
-	public void initialize() throws Exception {
+	public void initialize() {
 
 	}
 
@@ -39,8 +33,8 @@ public class FMController {
 	 * 
 	 * @param sceneChanger an instance of the class ChangeScene
 	 */
-	public void setChangeScene(ChangeScene sceneChanger) {
-		this.changeScene = sceneChanger;
+	public void setSceneChanger(ChangeScene sceneChanger) {
+		this.sceneChanger = sceneChanger;
 
 	}
 
@@ -48,9 +42,9 @@ public class FMController {
 	 * Tells class changeScene to perform the swithScene-action. 
 	 * @throws Exception
 	 */
-	public void NewGameClicked() throws Exception {
+	public void NewGameClicked() {
 
-		changeScene.switchScenetoSetting();
+		sceneChanger.switchSceneToSetting();
 
 	}
 
@@ -60,15 +54,10 @@ public class FMController {
 	 * 
 	 * @throws IOException
 	 */
-	public void LoadGameClicked() throws IOException {
-		// fileHandler = new FileHandler();
-		// String pot = fileHandler.loadPot();
-		// System.out.println(fileHandler.loadPot());
-
+	public void LoadGameClicked() {
 		System.out.println("LoadGame");
 		sound = new Sound();
 		sound.playSound("wrong");
-
 	}
 
 }

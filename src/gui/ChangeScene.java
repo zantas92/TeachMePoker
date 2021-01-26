@@ -50,7 +50,7 @@ public class ChangeScene {
 
     gameController.setChangeScene(this);
     settingsController.setChangeScene(this);
-    fmController.setChangeScene(this);
+    fmController.setSceneChanger(this);
 
   }
 
@@ -59,7 +59,7 @@ public class ChangeScene {
    * 
    * @throws IOException
    */
-  public void switchScenetoSetting() throws IOException {
+  public void switchSceneToSetting() {
     Main.window.getScene().setRoot(rootNewGame);
   }
 
@@ -68,7 +68,7 @@ public class ChangeScene {
    * 
    * @throws IOException
    */
-  public void switchScenetoGame() throws IOException {
+  public void switchSceneToGame() throws IOException {
 
     Main.window.getScene().setRoot(root2);
     gameController.setUsername(settingsController.getName());
@@ -80,9 +80,8 @@ public class ChangeScene {
    * Method which returns the Scene(and First/main menu).
    * 
    * @return bestScene the scene for the game.
-   * @throws IOException
    */
-  public Scene firstScene() throws IOException {
+  public Scene firstScene() {
     return bestScene;
   }
 

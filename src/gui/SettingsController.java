@@ -143,7 +143,7 @@ public class SettingsController {
 	 * Starts the game and checks so the Username it not empty and checks if the Tutorial should be playing at the beginning. 
 	 * @throws IOException
 	 */
-	public void startGame() throws IOException {
+	public void startGame() {
 
 
 		potSliderChange();
@@ -188,8 +188,7 @@ public class SettingsController {
 	 */
 	public void startGameWindow(){
 		ProgressForm pForm = new ProgressForm();
-		// In real life this task would do something useful and return
-		// some meaningful result:
+		// In real life this task would do something useful and return some meaningful result:
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws InterruptedException {
@@ -207,13 +206,12 @@ public class SettingsController {
 		// binds progress of progress bars to progress of task:
 		pForm.activateProgressBar(task);
 
-		// in real life this method would get the result of the task
-		// and update the UI based on its value:
+		// in real life this method would get the result of the task and update the UI based on its value:
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
 
 			try {
-				changeScene.switchScenetoGame();
+				changeScene.switchSceneToGame();
 				ConfirmBox cfBox = new ConfirmBox();
 
 				if (cfBox.display("Snart börjar spelet", "Är du redo att spela poker?")) {

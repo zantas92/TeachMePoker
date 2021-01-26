@@ -448,7 +448,7 @@ public class GameController {
    */
   public void updatePlayerValues(String action) {
 
-    lbPotValue.setText("§" + Integer.toString(playerPot));
+    lbPotValue.setText("§" + (playerPot));
     lbPlayerAction.setText(action);
     setSliderValues();
   }
@@ -467,30 +467,14 @@ public class GameController {
   public void setSliderValues() {
 
     int calcWithdraw = 0;
-    if (spController.getCurrentMaxBet() != alreadyPaid) { // If the player
-                                                          // hasn't
-                                                          // matched the
-                                                          // current
-                                                          // maxbet
-      calcWithdraw = spController.getCurrentMaxBet() - alreadyPaid; // Calculates
-                                                                    // how
-                                                                    // much
-                                                                    // the
-                                                                    // player
-                                                                    // has
-                                                                    // to
-                                                                    // pay
-                                                                    // to
-                                                                    // match
-                                                                    // it
+    if (spController.getCurrentMaxBet() != alreadyPaid) { // If the player hasn't matched the current max bet
+      calcWithdraw = spController.getCurrentMaxBet() - alreadyPaid; // Calculates amount for the player to match max bet
     }
 
     slider.setMax(playerPot);
     if (calcWithdraw > spController.getBigBlind()) {
       slider.setMin(calcWithdraw);
-    } else if (spController.getBigBlind() <= playerPot) { // Sets minimum value
-      // required in order to
-      // raise.
+    } else if (spController.getBigBlind() <= playerPot) { // Sets minimum value required in order to raise.
       slider.setMin(spController.getBigBlind());
     } else {
       slider.setMin(0);
@@ -699,20 +683,19 @@ public class GameController {
           "resources/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + ".png";
 
       if (hand.getHighlightedCards()
-          .contains(Integer.toString(card1.getCardValue()) + "," + card1.getCardSuit().charAt(0))) {
+          .contains((card1.getCardValue()) + "," + card1.getCardSuit().charAt(0))) {
         cardOne =
             "resources/images/" + card1.getCardValue() + card1.getCardSuit().charAt(0) + "O.png";
       }
 
       if (hand.getHighlightedCards()
-          .contains(Integer.toString(card2.getCardValue()) + "," + card2.getCardSuit().charAt(0))) {
+          .contains((card2.getCardValue()) + "," + card2.getCardSuit().charAt(0))) {
         cardTwo =
             "resources/images/" + card2.getCardValue() + card2.getCardSuit().charAt(0) + "O.png";
       }
 
-      Image imageTemp = null;
-      ImageView imgCard1 = new ImageView(imageTemp);
-      ImageView imgCard2 = new ImageView(imageTemp);
+      ImageView imgCard1;
+      ImageView imgCard2;
 
       Image image = new Image(Paths.get(cardOne).toUri().toString(), 114, 148, true, true);
       imgCard1 = new ImageView(image);
@@ -738,8 +721,7 @@ public class GameController {
   public void setFlopTurnRiver(Card[] setOfCards) {
 
     this.cards = new ArrayList<Card>(); // Clears the cards list
-    cards.add(card1); // Adds card one and card two (player's cards in the
-                      // hand)
+    cards.add(card1); // Adds card one and card two (player's cards in the hand)
     cards.add(card2);
 
     for (Card c : setOfCards) {
@@ -747,24 +729,17 @@ public class GameController {
     }
 
     this.hand = new Hand(cards);
-    hand.reCalc(); // Recalculates so the "new" set of cards gets
-                   // highlighted
+    hand.reCalc(); // Recalculates so the "new" set of cards gets highlighted
 
     Platform.runLater(() -> {
-      tabelCardArea.getChildren().clear(); // Clears if there's cards on
-                                           // the table (UI)
+      tabelCardArea.getChildren().clear(); // Clears if there's cards on the table (UI)
       tabelCardArea.requestLayout();
 
       int xCord = 0;
-      for (int i = 0; i < setOfCards.length; i++) { // Loops through all
-                                                    // cards and
-                                                    // highlights the
-                                                    // correct ones and
-                                                    // places them on
-                                                    // the table
-                                                    // (UI)
+      for (int i = 0; i < setOfCards.length; i++) { // Loops through all cards and highlights the correct ones and
+                                                    // places them on the table (UI)
         String baseCard = "";
-        if (hand.getHighlightedCards().contains(Integer.toString(setOfCards[i].getCardValue()) + ","
+        if (hand.getHighlightedCards().contains((setOfCards[i].getCardValue()) + ","
             + setOfCards[i].getCardSuit().charAt(0))) {
           baseCard = "resources/images/" + setOfCards[i].getCardValue()
               + setOfCards[i].getCardSuit().charAt(0) + "O.png";
@@ -1079,7 +1054,7 @@ public class GameController {
   public void setAiPlayers(LinkedList<Ai> aiPlayers, boolean notFirstRound, int deadAIIndex) {
 
     this.aiPlayers = aiPlayers;
-    int totalAI = spController.getFixedNrOfAIs();
+    int totalAI = spController.getFixedNumberOfAIs();
     if (!notFirstRound) {
       if (totalAI == 1) {
         setShowUIAiBar(2);
@@ -1108,7 +1083,7 @@ public class GameController {
    */
   public void aiAction(int currentAI, String decision) {
 
-    int setAINr = spController.getFixedNrOfAIs();
+    int setAINr = spController.getFixedNumberOfAIs();
 
     int setOfPlayers = 0; // Is used for choosing the correct set of
                           // positioning (see
@@ -1265,11 +1240,9 @@ public class GameController {
 
   /**
    * Method which creates a popup to inform the player that s/he lost.
-   * 
-   * @throws InstantiationException
-   * @throws IllegalAccessException
+   *
    */
-  public void playerLost() throws InstantiationException, IllegalAccessException {
+  public void playerLost() {
 
     Platform.runLater(() -> {
 
@@ -1366,9 +1339,6 @@ public class GameController {
    */
   public void setWinnerLabel(String winner, int hand) {
 
-    String winnerOfRound = winner;
-
-
     if (hand == 0) {
       winnerHand = "högsta kort";
     }
@@ -1406,29 +1376,29 @@ public class GameController {
       winnerHand = "Du förlorade!";
     }
 
-    if (!winnerOfRound.equals(getUsername()) && (hand < 10)) {
+    if (!winner.equals(getUsername()) && (hand < 10)) {
       Platform.runLater(() -> {
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 2, winnerHand);
+        winnerBox.displayWinner("Rundans vinnare", winner, 2, winnerHand);
       });
-    } else if (winnerOfRound.equals(getUsername()) && (hand < 10)) {
+    } else if (winner.equals(getUsername()) && (hand < 10)) {
       Platform.runLater(() -> {
         sound.playSound("coinSound");
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 1, winnerHand);
+        winnerBox.displayWinner("Rundans vinnare", winner, 1, winnerHand);
 
       });
-    } else if (winnerOfRound.equals(getUsername()) && (hand > 10)) {
+    } else if (winner.equals(getUsername()) && (hand > 10)) {
       Platform.runLater(() -> {
         sound.playSound("coinSound");
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 3, winnerHand);
+        winnerBox.displayWinner("Rundans vinnare", winner, 3, winnerHand);
 
       });
-    } else if (!winnerOfRound.equals(getUsername()) && (hand > 10)) {
+    } else if (!winner.equals(getUsername()) && (hand > 10)) {
       Platform.runLater(() -> {
         winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Rundans vinnare", winnerOfRound, 4, winnerHand);
+        winnerBox.displayWinner("Rundans vinnare", winner, 4, winnerHand);
 
       });
     }
@@ -1486,19 +1456,19 @@ public class GameController {
    */
   public void updatePots(int[][] potSplits, int tablePot) {
 
-    if (spController.getFixedNrOfAIs() == 5) {
+    if (spController.getFixedNumberOfAIs() == 5) {
       this.collectionOfPots =
           new Label[] {subPotOne, subPotTwo, subPotThree, subPotFour, subPotFive, subPotSix};
-    } else if (spController.getFixedNrOfAIs() == 3) {
+    } else if (spController.getFixedNumberOfAIs() == 3) {
       this.collectionOfPots = new Label[] {subPotOne, subPotTwo, subPotThree, subPotFour};
-    } else if (spController.getFixedNrOfAIs() == 1) {
+    } else if (spController.getFixedNumberOfAIs() == 1) {
       this.collectionOfPots = new Label[] {subPotOne, subPotTwo};
     }
     Platform.runLater(() -> {
       String[] potOrder = {"Sub-Pot One: ", "Sub-Pot Two: ", "Sub-Pot Three: ", "Sub-Pot Four: ",
           "Sub-Pot Five: ", "Sub-Pot Six: "};
       for (int i = 0; i < collectionOfPots.length; i++) {
-        if (potSplits[i][0] > 0) {
+       if (potSplits[i][0] > 0) {
           collectionOfPots[i].setText(potOrder[i] + "§" + potSplits[i][0]);
           collectionOfPots[i].setVisible(true);
           collectionOfPots[i].setLayoutX(10);

@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class AiCalculation {
 
-	private ArrayList<String> aiCards = new ArrayList<String>();
+	private ArrayList<String> aiCards;
 	private ArrayList<Integer> cardNbr = new ArrayList<Integer>();
 	private ArrayList<String> cardClr = new ArrayList<String>();
 	private int handStrenght = 0;

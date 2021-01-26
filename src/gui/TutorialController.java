@@ -69,7 +69,7 @@ public class TutorialController {
 		window.setWidth(1285);
 		window.setHeight(730);
 		window.setOnCloseRequest(e -> settingsController.startGameWindow());
-		this.tutorialPane = (Pane) FXMLLoader.load(RuleController.class.getResource("/Tutorial.fxml"));
+		this.tutorialPane = FXMLLoader.load(RuleController.class.getResource("/Tutorial.fxml"));
 		Scene scene = new Scene(tutorialPane);
 		window.setScene(scene);
 		window.show();
@@ -89,7 +89,7 @@ public class TutorialController {
 	window.setWidth(1285);
 	window.setHeight(730);
 	window.setOnCloseRequest(e -> closeProgram());
-	this.tutorialPane = (Pane) FXMLLoader.load(RuleController.class.getResource("/Tutorial.fxml"));
+	this.tutorialPane = FXMLLoader.load(RuleController.class.getResource("/Tutorial.fxml"));
 	Scene scene = new Scene(tutorialPane);
 	window.setScene(scene);
 	window.show();

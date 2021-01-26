@@ -273,13 +273,7 @@ public class HandCalculation {
 	public int checkStraight(){
 		
 		int threshold = 0;
-		
-		int[] CorrectOrderArray = new int[cardNbr.size()];
 
-		for (int i = 0; i < cardNbr.size(); i++) {			//as referance when getting to highlight.
-			CorrectOrderArray[i] = cardNbr.get(i);
-		}
-		
 		for(int i = 0; i<cardNbr.size(); i++){
 			if(cardNbr.get(i)==14){
 				cardNbr.add(1);
@@ -535,14 +529,13 @@ public class HandCalculation {
 	public String Help(){
 		
 		String helper= "Ingenting, tyvärr...";
-		String advice = "Denna hand kanske inte är den bästa att spela på...";
 		
 		String[] splitter = yourCard.split(",");
 		int intCardNbr = Integer.parseInt(splitter[0]);
 		String yourCardInt="";
 		yourCardInt = String.valueOf(intCardNbr);
-		String cardOne = String.valueOf(cardNbr.get(0))+":or";
-		String cardTwo = String.valueOf(cardNbr.get(1))+":or";
+		String cardOne = cardNbr.get(0)+":or";
+		String cardTwo = cardNbr.get(1)+":or";
 		
 		if(cardNbr.get(0)>10){
 			if(cardNbr.get(0)==11){
@@ -598,7 +591,7 @@ public class HandCalculation {
 		//im overwriting it with a better card. starting from high card only and ending on straight flush.
 		
 		//HIGH CARD
-		advice = "Du har bara 'HIGH CARD'. \nOm det är billigt så kan du prova och se.\n";
+		String advice = "Du har bara 'HIGH CARD'. \nOm det är billigt så kan du prova och se.\n";
 		
 		if(highCards){
 			advice = "Du har ett högt 'HIGH CARD'. \nOm det är billigt så kan du prova och se.\n";
@@ -634,7 +627,7 @@ public class HandCalculation {
 								+ " Kör på!\n";
 					 }	
 				}
-				// writes the active cards to hihglight
+				// writes the active cards to highlight
 				if(straightChance<5 && colorChance<5){
 				toHighlight.clear();
 				for(int i = 0; i<aiCards.size(); i++){			
@@ -652,7 +645,7 @@ public class HandCalculation {
 		if(pairsNmore==22){				
 				helper = "'TWO PAIRS'  i " + cardOne + " och " + cardTwo ; 
 				advice = "'TWO PAIRS' är en bra hand, kör på.\n";	
-				// writes the active cards to hihglight
+				// writes the active cards to highlight
 				if(straightChance<5 && colorChance<5){
 				toHighlight.clear();		
 				for(int i = 0; i<aiCards.size(); i++){
@@ -673,7 +666,7 @@ public class HandCalculation {
 		if(pairsNmore==3){			
 			helper = "'THREE OF A KIND' i " + yourCardInt;			
 			advice = "'THREE OF A KIND' är en väldigt stark hand. Kör på! Fundera även på att höja!\n";
-			// writes the active cards to hihglight
+			// writes the active cards to highlight
 			if(straightChance<5 && colorChance<5){
 			toHighlight.clear();
 			for(int i = 0; i<aiCards.size(); i++){			

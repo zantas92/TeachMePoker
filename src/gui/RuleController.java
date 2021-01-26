@@ -25,7 +25,7 @@ public class RuleController{
 		window.setWidth(1100);
 		window.setHeight(633);
 		window.setOnCloseRequest(e -> closeProgram());
-		Pane mainPane = (Pane) FXMLLoader.load(RuleController.class.getResource("/Rules.fxml"));
+		Pane mainPane = FXMLLoader.load(RuleController.class.getResource("/Rules.fxml"));
 		Scene scene = new Scene(mainPane);
 		window.setScene(scene);
 		window.show();
