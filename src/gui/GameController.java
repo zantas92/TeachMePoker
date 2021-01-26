@@ -59,7 +59,7 @@ public class GameController {
   @FXML
   private Label raiseLabel;
   @FXML
-  private Pane tabelCardArea;
+  private Pane tableCardArea;
   @FXML
   private AnchorPane AnchorPaneAll;
 
@@ -732,8 +732,8 @@ public class GameController {
     hand.reCalc(); // Recalculates so the "new" set of cards gets highlighted
 
     Platform.runLater(() -> {
-      tabelCardArea.getChildren().clear(); // Clears if there's cards on the table (UI)
-      tabelCardArea.requestLayout();
+      tableCardArea.getChildren().clear(); // Clears if there's cards on the table (UI)
+      tableCardArea.requestLayout();
 
       int xCord = 0;
       for (int i = 0; i < setOfCards.length; i++) { // Loops through all cards and highlights the correct ones and
@@ -755,7 +755,7 @@ public class GameController {
         Image imageTemp = new Image(Paths.get(baseCard).toUri().toString(), 114, 148, true, true);
 
         collectionOfCardsTable[i] = new ImageView(imageTemp);
-        tabelCardArea.getChildren().add(collectionOfCardsTable[i]);
+        tableCardArea.getChildren().add(collectionOfCardsTable[i]);
         collectionOfCardsTable[i].setX(xCord);
         collectionOfCardsTable[i].setY(0);
       }
@@ -771,7 +771,7 @@ public class GameController {
   public void clearFlopTurnRiver() {
 
     Platform.runLater(() -> {
-      tabelCardArea.getChildren().clear();
+      tableCardArea.getChildren().clear();
     });
   }
 
@@ -1198,18 +1198,11 @@ public class GameController {
 
   /**
    * Method which returns to the main menu
-   * 
-   * @throws InstantiationException
-   * @throws IllegalAccessException
+   *
    */
-  public void goToMainMenu() throws InstantiationException, IllegalAccessException {
+  public void goToMainMenu() {
 
-    try {
-      changeScene.switchToMainMenu();
-      changeScene.prepGame();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    changeScene.switchToMainMenu();
   }
 
 
@@ -1246,18 +1239,13 @@ public class GameController {
 
     Platform.runLater(() -> {
 
-      try {
+      winnerBox = new WinnerBox();
+      winnerBox.displayWinner("Förlust",
+          "Tyvärr, du förlorade och dina pengar är slut. Bättre lycka nästa gång!", 5,
+          winnerHand);
 
-        winnerBox = new WinnerBox();
-        winnerBox.displayWinner("Förlust",
-            "Tyvärr, du förlorade och dina pengar är slut. Bättre lycka nästa gång!", 5,
-            winnerHand);
+      changeScene.switchToMainMenu();
 
-        changeScene.switchToMainMenu();
-
-      } catch (IOException | InstantiationException | IllegalAccessException e) {
-        e.printStackTrace();
-      }
     });
   }
 
@@ -1407,10 +1395,9 @@ public class GameController {
 
   /**
    * Method which creates a new tutorial and shows it.
-   * 
-   * @throws IOException
+   *
    */
-  public void goToTutorial() throws IOException {
+  public void goToTutorial() {
 
     Platform.runLater(() -> {
       this.tutorialWindow = new TutorialController(this);

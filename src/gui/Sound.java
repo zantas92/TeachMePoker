@@ -55,7 +55,7 @@ public class Sound {
 	/**
 	 * Starts playing the background music.
 	 */
-	public void playBackgroundMusic() {
+	public static void playBackgroundMusic() {
 		mp.play();
 
 	}

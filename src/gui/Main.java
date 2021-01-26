@@ -20,13 +20,11 @@ public class Main extends Application {
 	 * executed.
 	 */
 	public void start(Stage primaryStage) throws Exception {
-		cs.prepGame();
-
 		window = primaryStage;
 		window.setTitle("TeachMePoker");
 		window.setResizable(true);
 		window.setOnCloseRequest(e -> closeProgram());
-
+		cs.prepGame();
 		window.setScene(cs.firstScene());
 		window.show();
 

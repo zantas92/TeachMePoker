@@ -4,6 +4,7 @@ import java.io.IOException;
 import controller.SPController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 /**
@@ -16,64 +17,65 @@ import javafx.scene.layout.Pane;
  */
 
 public class ChangeScene {
-
-  Pane rootMenu;
-  Pane rootNewGame;
-  Pane root2;
-  Scene bestScene;
-  private FMController fmController;
+  Pane firstMenu;
+  Pane gameSettingsMenu;
+  Pane gameState;
+  Pane menuBar;
+  Scene scene;
+  BorderPane borderPane;
   private SettingsController settingsController;
   private GameController gameController;
+  private MenuBarController menuBarController;
 
   /**
    * Method which prepares the FXMLs and by extension the game itself.
    * 
    * @throws IOException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
    */
-  public void prepGame() throws IOException, InstantiationException, IllegalAccessException {
-    Sound.class.newInstance().playBackgroundMusic();
-    FXMLLoader loaderFM = new FXMLLoader(FMController.class.getResource("/FirstMenu.fxml"));
-    this.rootMenu = loaderFM.load();
-    this.fmController = loaderFM.getController();
-    FXMLLoader loaderSS =
-        new FXMLLoader(SettingsController.class.getResource("/GameSettingMenu.fxml"));
-    this.rootNewGame = loaderSS.load();
-    this.settingsController = loaderSS.getController();
+  public void prepGame() throws IOException {
+    Sound.playBackgroundMusic();
+    FXMLLoader loaderFirstMenu = new FXMLLoader(FMController.class.getResource("/FirstMenu.fxml"));
+    this.firstMenu = loaderFirstMenu.load();
 
-    FXMLLoader loaderGS = new FXMLLoader(GameController.class.getResource("/GameState.fxml"));
-    this.root2 = loaderGS.load();
-    this.gameController = loaderGS.getController();
+    FXMLLoader loaderGameSettingsMenu = new FXMLLoader(SettingsController.class.getResource("/GameSettingMenu.fxml"));
+    this.gameSettingsMenu = loaderGameSettingsMenu.load();
+    this.settingsController = loaderGameSettingsMenu.getController();
 
-    this.bestScene = new Scene(rootMenu);
+    FXMLLoader loaderGameState = new FXMLLoader(GameController.class.getResource("/GameState.fxml"));
+    this.gameState = loaderGameState.load();
+    this.gameController = loaderGameState.getController();
+
+    FXMLLoader loaderMenuBar = new FXMLLoader(FMController.class.getResource("/MenuBar.fxml"));
+    this.menuBar = loaderMenuBar.load();
+    this.menuBarController = loaderMenuBar.getController();
+
+    this.scene = new Scene(firstMenu);
+    borderPane = new BorderPane();
+    scene.setRoot(borderPane);
+    borderPane.setTop(menuBar);
+    borderPane.setCenter(firstMenu);
 
     gameController.setChangeScene(this);
     settingsController.setChangeScene(this);
-    fmController.setSceneChanger(this);
-
+    menuBarController.setChangeScene(this);
+    ((FMController)loaderFirstMenu.getController()).setSceneChanger(this);
   }
 
   /**
    * Method which switches the scene to the settings menu.
-   * 
-   * @throws IOException
+   *
    */
   public void switchSceneToSetting() {
-    Main.window.getScene().setRoot(rootNewGame);
+    borderPane.setCenter(gameSettingsMenu);
   }
 
   /**
    * Method which switches the scene to the GameState.
-   * 
-   * @throws IOException
+   *
    */
-  public void switchSceneToGame() throws IOException {
-
-    Main.window.getScene().setRoot(root2);
+  public void switchSceneToGame() {
+    borderPane.setCenter(gameState);
     gameController.setUsername(settingsController.getName());
-    Sound.mp.setVolume(0.3);
-
   }
 
   /**
@@ -82,20 +84,16 @@ public class ChangeScene {
    * @return bestScene the scene for the game.
    */
   public Scene firstScene() {
-    return bestScene;
+    return scene;
   }
 
   /**
    * Method which switches to the main menu.
-   * 
-   * @throws IOException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
+   *
    */
-  public void switchToMainMenu()
-      throws IOException, InstantiationException, IllegalAccessException {
-    prepGame();
-    Main.window.setScene(bestScene);
+  public void switchToMainMenu() {
+    borderPane.setCenter(firstMenu);
+    Sound.playBackgroundMusic();
   }
 
   /**
