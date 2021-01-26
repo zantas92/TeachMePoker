@@ -256,7 +256,7 @@
 				</ImageView>
 
 				<Label fx:id="lbAllIn" disable="false" focusTraversable="false" font="$x3" labelFor="$slider" layoutX="870.0" layoutY="650.0" prefHeight="28.0" prefWidth="49.0" text="ALL IN" textFill="WHITE" visible="false" />
-				<Pane fx:id="tabelCardArea" layoutX="435.0" layoutY="231.0" prefHeight="164.0" prefWidth="471.0" />
+				<Pane fx:id="tableCardArea" layoutX="435.0" layoutY="231.0" prefHeight="164.0" prefWidth="471.0" />
 				<!-- <ImageView id="img1Table.png" fx:id="imgCard1" fitHeight="166.0" 
 					fitWidth="120.0" layoutX="0.0" layoutY="0.0" visible="false"> </ImageView> 
       					<ImageView id="img2Table.png" fx:id="imgCard2" fitHeight="166.0" fitWidth="120.0" 

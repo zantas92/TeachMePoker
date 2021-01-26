@@ -210,20 +210,15 @@ public class SettingsController {
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
 
-			try {
-				changeScene.switchSceneToGame();
-				ConfirmBox cfBox = new ConfirmBox();
+			changeScene.switchSceneToGame();
+			ConfirmBox cfBox = new ConfirmBox();
 
-				if (cfBox.display("Snart börjar spelet", "Är du redo att spela poker?")) {
-					spController.startGame(aiValue, potValue, name);
-					Sound.mp.stop();
-					sound.playSound("shuffle");
-				} else {
-					changeScene.switchToMainMenu();
-				}
-			} catch (IOException | InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (cfBox.display("Snart börjar spelet", "Är du redo att spela poker?")) {
+				spController.startGame(aiValue, potValue, name);
+				Sound.mp.stop();
+				sound.playSound("shuffle");
+			} else {
+				changeScene.switchToMainMenu();
 			}
 		});
 		System.out.println("Spel startas!");
@@ -264,12 +259,7 @@ public class SettingsController {
 	 * @throws IllegalAccessException
 	 */
 	public void back() throws InstantiationException, IllegalAccessException {
-		try {
-			changeScene.switchToMainMenu();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		changeScene.switchToMainMenu();
 		// Main.window.setScene(changeScene.sceneMenu);
 	}
 
