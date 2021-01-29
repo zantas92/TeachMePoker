@@ -213,7 +213,7 @@ public class SettingsController {
 			changeScene.switchSceneToGame();
 			ConfirmBox cfBox = new ConfirmBox();
 
-			if (cfBox.display("Snart börjar spelet", "Är du redo att spela poker?")) {
+			if (cfBox.display("Snart börjar spelet", "Nu kör vi!")) {
 				spController.startGame(aiValue, potValue, name);
 				Sound.mp.stop();
 				sound.playSound("shuffle");

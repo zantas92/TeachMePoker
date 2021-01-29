@@ -41,10 +41,8 @@ public class ConfirmBox {
     label.setText(message);
     label.setWrapText(true);
 
-    Button buttonOk = new Button("Ja");
-    Button buttonNotOk = new Button("Nej");
+    Button buttonOk = new Button("Ok");
     buttonOk.setFont(font);
-    buttonNotOk.setFont(font);
 
     buttonOk.setOnAction(e -> {
       answer = true;
@@ -53,14 +51,10 @@ public class ConfirmBox {
 
 
     });
-    buttonNotOk.setOnAction(e -> {
-      answer = false;
-      closeProgram();
-    });
 
     VBox layout = new VBox(10);
     layout.setPadding(new Insets(10, 10, 10, 10));
-    layout.getChildren().addAll(label, buttonOk, buttonNotOk);
+    layout.getChildren().addAll(label, buttonOk);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);

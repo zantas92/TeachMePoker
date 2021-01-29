@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MenuBarController">
+<VBox prefHeight="40.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MenuBarController">
    <children>
-      <ButtonBar prefHeight="40.0" prefWidth="600.0">
-        <buttons>
-            <ImageView fitHeight="28.0" fitWidth="38.0" onMouseReleased="#goToHome" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3D3D3D;">
+         <children>
+          <Button layoutX="253.0" layoutY="5.0" mnemonicParsing="false" onMouseReleased="#buttonPressed" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: black; -fx-background-radius: 15;" text="Button" textFill="WHITE" />
+            <ImageView fitHeight="28.0" fitWidth="38.0" layoutX="14.0" layoutY="7.0" onMouseReleased="#goToHome" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/home.png" />
                </image>
             </ImageView>
-          <Button mnemonicParsing="false" onMouseReleased="#buttonPressed" text="Button" />
-            <MenuButton mnemonicParsing="false" text="MenuButton">
+            <Label fx:id="testLabel" layoutX="337.0" layoutY="12.0" text="Button is working!" textFill="WHITE" visible="false" />
+            <MenuButton layoutX="1011.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: black; -fx-background-radius: 15;" text="MenuButton" textFill="WHITE">
               <items>
                 <MenuItem mnemonicParsing="false" text="Just" />
                 <MenuItem mnemonicParsing="false" text="Testing" />
               </items>
             </MenuButton>
-            <Label fx:id="testLabel" text="Button is working!" visible="false" />
-        </buttons>
-      </ButtonBar>
+            <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="1240.0" layoutY="6.0">
+               <image>
+                  <Image url="@images/exitButton.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</VBox>
