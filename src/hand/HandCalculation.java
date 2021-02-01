@@ -788,7 +788,7 @@ public class HandCalculation {
 	/**
 	 * @return what to be highlighed.
 	 */
-	public ArrayList<String> toHiglight(){
+	public ArrayList<String> toHighlight(){
 		return toHighlight;
 		
 	}

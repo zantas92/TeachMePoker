@@ -12,15 +12,25 @@ import javax.swing.ImageIcon;
  * @author Vedrana Zeba
  */
 public class Deck {
-  private ArrayList<Card> deck = new ArrayList<Card>();
-  private ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+  private ArrayList<Card> deck;
 
 
   /**
    * Creates a deck of cards
    */
   public Deck() {
-    createDeck();
+    deck = new ArrayList<>();
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    for (Suit suit : Suit.values()) {
+      try {
+        for (int value=2; value<15; value++) {
+          deck.add(new Card(suit, value, new ImageIcon(ImageIO.read(classLoader.getResourceAsStream(
+                  "images/" + value + suit.name().charAt(0) + ".png")))));
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
 
@@ -33,9 +43,8 @@ public class Deck {
 
 
   /**
-   * Returns the reference of the card that's being removed
-   * 
-   * @return the reference of the card that's being removed
+   * Returns the reference of the card that's being removed.
+   * @return The removed card.
    */
   public Card getCard() {
     return deck.remove(0);
@@ -49,25 +58,5 @@ public class Deck {
    */
   public int getNumberOfCardsInDeck() {
     return deck.size();
-  }
-
-
-  /**
-   * Creates a deck of cards
-   */
-  public void createDeck() {
-    deck = new ArrayList<Card>();
-
-    for (Suit suit : Suit.values()) {
-      try {
-        for (CardValue card : CardValue.values()) {
-          deck.add(new Card(suit, card, new ImageIcon(ImageIO.read(classLoader.getResourceAsStream(
-              "images/" + card.getCardValue() + suit.getSuitLetter() + ".png")))));
-        }
-
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
   }
 }
