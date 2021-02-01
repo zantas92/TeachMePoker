@@ -5,28 +5,8 @@ package deck;
  * @author Vedrana Zeba
  */
 public enum Suit {
-	HEARTS('h'),
-	SPADES('s'),
-	CLUBS('c'),
-	DIAMONDS('d');
-
-	private char suit;
-	
-	
-	/**
-	 * Creates the suits
-	 * @param firstLetter h, s, c or d
-	 */
-	Suit(char firstLetter) {
-		this.suit = firstLetter;
-	}
-
-	
-	/**
-	 * Returns the suit
-	 * @return the suit
-	 */
-	public char getSuitLetter() {
-		return suit;
-	}
+	HEARTS,
+	SPADES,
+	CLUBS,
+	DIAMONDS
 }

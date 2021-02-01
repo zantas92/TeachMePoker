@@ -9,17 +9,17 @@ import javax.swing.Icon;
 
 public class Card {
 	
-	private Suit cardSuit;
-	private CardValue cardValue;
-	private Icon cardIcon;
+	private final Suit cardSuit;
+	private final int cardValue;
+	private final Icon cardIcon;
 
 	/**
 	 * Creates a Card with a suit, value and picture 
 	 * @param suit "Hearts", "Diamonds", "Clubs", "Spades"
-	 * @param value 2,3,4,5,6,7,8,9,10,11,12,13,14
-	 * @param cardIcon 
+	 * @param value from 2 to 14 (Ace)
+	 * @param cardIcon Image that represents the card
 	 */
-	public Card(Suit suit, CardValue value, Icon cardIcon){
+	public Card(Suit suit, int value, Icon cardIcon){
 		this.cardSuit = suit;
 		this.cardValue = value;
 		this.cardIcon = cardIcon;
@@ -29,7 +29,7 @@ public class Card {
 	 * @return cardValue
 	 */
 	public int getCardValue(){
-		return cardValue.getCardValue();
+		return cardValue;
 	}
 	/**
 	 * Returns the suit of the card.
