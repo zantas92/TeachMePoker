@@ -1,5 +1,6 @@
-package gui;
+package view;
 
+import controller.ChangeScene;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -23,7 +24,10 @@ public class Main extends Application {
 		window = primaryStage;
 		window.setTitle("TeachMePoker");
 		window.setResizable(true);
-		window.setOnCloseRequest(e -> closeProgram());
+		window.setOnCloseRequest(e ->{
+			e.consume();
+			closeProgram();
+				});
 		cs.prepGame();
 		window.setScene(cs.firstScene());
 		window.show();
@@ -44,6 +48,10 @@ public class Main extends Application {
 	 * Closes the window and exits the program.
 	 */
 	public void closeProgram() {
-		window.close();
+		if (ConfirmBox.yesNoOption("Avsluta?", "Ingenting sparas när du avslutar spelet. Är du säker på att" +
+				" du vill avsluta Teach Me Poker nu?")) {
+			window.close();
+			System.exit(0);
+		}
 	}
 }

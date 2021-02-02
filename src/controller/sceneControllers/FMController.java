@@ -1,10 +1,15 @@
-package gui;
+package controller.sceneControllers;
 
-import java.io.IOException;
-
+import controller.ChangeScene;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import model.Scenes;
+import view.ConfirmBox;
+
+import javax.swing.text.html.ImageView;
 
 /**
  * Controller for FXML-doc FirstMenu.fxml.
@@ -15,9 +20,9 @@ import javafx.scene.image.ImageView;
  */
 
 public class FMController {
-
 	private ChangeScene sceneChanger;
-	private Sound sound;
+	@FXML
+	ImageView ivQuit;
 
 	/**
 	 * Generated method for the FXML.
@@ -41,14 +46,11 @@ public class FMController {
 	 * Tells class changeScene to perform the swithScene-action.
 	 */
 	public void NewGameClicked() {
-
-		sceneChanger.switchSceneToSetting();
-
+		ChangeScene.switchScene(Scenes.GameSetup);
 	}
 
 	public void AboutUs() {
-		ConfirmBox confirmBox = new ConfirmBox();
-		confirmBox.display("Om projektet",
+		ConfirmBox.display("Om projektet",
 				"Detta projekt är format och skapat av "
 						+ "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
 						+ "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.\n\n" +
@@ -57,15 +59,7 @@ public class FMController {
 						" i kursen Systemutveckling II");
 	}
 
-	/**
-	 * Should load a saved game file. This method is currently a non-functional
-	 * method that is not implemented for the final version.
-	 *
-	 */
-	public void LoadGameClicked() {
-		System.out.println("LoadGame");
-		sound = new Sound();
-		sound.playSound("wrong");
+	public void QuitGame(MouseEvent mouseEvent) {
+		Platform.exit();
 	}
-
 }

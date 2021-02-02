@@ -1,4 +1,4 @@
-package gui;
+package controller.gameController;
 
 
 import java.nio.file.Paths;

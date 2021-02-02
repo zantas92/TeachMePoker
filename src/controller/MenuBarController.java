@@ -1,8 +1,10 @@
-package gui;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import model.Scenes;
+import view.ConfirmBox;
 
 public class MenuBarController {
     @FXML
@@ -14,7 +16,10 @@ public class MenuBarController {
     }
 
     public void goToHome(MouseEvent mouseEvent) {
-        changeScene.switchToMainMenu();
+        if(ConfirmBox.yesNoOption("Gå tillbaka till huvudmenyn?", "Ingenting kommer att sparas. Är du säker" +
+                " på att du vill gå tillbaka till huvudmenyn?")) {
+            ChangeScene.switchScene(Scenes.MainMenu);
+        }
     }
 
     public void buttonPressed(MouseEvent mouseEvent) {

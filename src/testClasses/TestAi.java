@@ -1,9 +1,11 @@
-package aiClass;
+package testClasses;
 
 
 import java.util.ArrayList;
-import deck.Card;
-import deck.Deck;
+
+import controller.aiClass.Ai;
+import model.Card;
+import model.Deck;
 /**
  * Class that is for testing of the AI.
  * And also been used for doing the WhiteBox testing of the ai-player.

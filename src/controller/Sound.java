@@ -1,4 +1,4 @@
-package gui;
+package controller;
 
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -57,7 +57,17 @@ public class Sound {
 	 */
 	public static void playBackgroundMusic() {
 		mp.play();
+	}
 
+	public static void setVolume(double volume){
+		if (mp.isMute()) {
+			mp.setMute(false);
+		}
+		mp.setVolume(volume/100);
+	}
+
+	public void stopMusic(){
+		mp.stop();
 	}
 
 }

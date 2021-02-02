@@ -1,8 +1,11 @@
-package gui;
+package view;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import controller.gameController.GameController;
+import controller.sceneControllers.RuleController;
+import controller.sceneControllers.SettingsController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +22,7 @@ import javafx.stage.Stage;
  * 
  * @author Vedrana Zeba
  */
-public class TutorialController {
+public class Tutorial {
 
 	@FXML
 	private ImageView imgTutorial;
@@ -27,6 +30,8 @@ public class TutorialController {
 	private Pane tutorialPane;
 	@FXML
 	private ImageView btnNext;
+	@FXML
+	private ImageView btnSkip;
 
 	public int tutorialProgress;
 	public SettingsController settingsController;
@@ -38,7 +43,7 @@ public class TutorialController {
 	 * Creates the tutorial window object, does not show the window.
 	 * @param settingsController settingsController-object (self)
 	 */
-	public TutorialController(SettingsController settingsController, int nr){
+	public Tutorial(SettingsController settingsController, int nr){
 		gc = nr;
 		this.settingsController = settingsController;
 	}
@@ -47,7 +52,7 @@ public class TutorialController {
 	 * Creates the tutorial window object, does not show the window.
 	 * @param gameController gameController-object (self)
 	 */
-	public TutorialController(GameController gameController){
+	public Tutorial(GameController gameController){
 		
 		this.gameController = gameController;
 	}
@@ -55,7 +60,7 @@ public class TutorialController {
 	/**
 	 * In order to prevent crash (fx:controller in Tutorial.fxml)
 	 */
-	public TutorialController() {
+	public Tutorial() {
 	}
 
 	/**
@@ -116,8 +121,17 @@ public class TutorialController {
 		image = new Image(Paths.get("resources/images/" + buttonName + ".png").toUri().toString(), 170, 95, true, true);
 		btnNext = new ImageView(image);
 		btnNext.setX(1090);
-		btnNext.setY(570.5);
+		btnNext.setY(550.5);
 		tutorialPane.getChildren().add(btnNext);
+
+		if (tutorialProgress != 1 && tutorialProgress != 17) {
+			image = new Image(Paths.get("resources/images/skipButton.png").toUri().toString(), 170, 95, true, true);
+			btnSkip = new ImageView(image);
+			btnSkip.setX(1090);
+			btnSkip.setY(635);
+			tutorialPane.getChildren().add(btnSkip);
+			addButtonListenerSkip();
+		}
 
 
 		if(tutorialProgress == 17){
@@ -134,6 +148,17 @@ public class TutorialController {
 		btnNext.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override public void handle(MouseEvent event) {
 				placeImg();
+			}
+		});
+	}
+
+	/**
+	 * Listener for skipping tutorial.
+	 */
+	public void addButtonListenerSkip(){
+		btnSkip.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent event) {
+				skipTutorial();
 			}
 		});
 	}
@@ -158,5 +183,12 @@ public class TutorialController {
 	 */
 	public void closeProgram() {
 		window.close();
+	}
+
+	public void skipTutorial() {
+		if (ConfirmBox.yesNoOption("Hoppa över", "Är du säker på att du vill hoppa över introduktionen?")){
+			window.close();
+			settingsController.startGameWindow();
+		}
 	}
 }
