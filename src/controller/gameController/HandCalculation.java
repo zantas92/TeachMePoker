@@ -1,4 +1,4 @@
-package hand;
+package controller.gameController;
 
 import java.util.ArrayList;
 import java.util.Arrays;

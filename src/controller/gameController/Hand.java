@@ -1,7 +1,7 @@
-package hand;
+package controller.gameController;
 
 import java.util.ArrayList;
-import deck.Card;
+import model.Card;
 
 /**
  * The hand-class that will guide and help the noob player.

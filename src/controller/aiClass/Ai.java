@@ -1,7 +1,7 @@
-package aiClass;
+package controller.aiClass;
 
 import java.util.ArrayList;
-import deck.Card;
+import model.Card;
 
 
 /**

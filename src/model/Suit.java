@@ -1,4 +1,4 @@
-package deck;
+package model;
 
 /**
  * Enums for the allowed suits

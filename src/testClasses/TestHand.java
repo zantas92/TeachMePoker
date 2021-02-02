@@ -1,9 +1,10 @@
-package hand;
+package testClasses;
 
 import java.util.ArrayList;
-import java.util.Random;
-import deck.Card;
-import deck.Deck;
+
+import controller.gameController.Hand;
+import model.Card;
+import model.Deck;
 
 /**
  * Class for testing the hand-class and has also been used for the WHitebox Testing of the hand-class.

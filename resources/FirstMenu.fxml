@@ -6,30 +6,35 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FMController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.sceneControllers.FMController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/menuBackground.png" />
          </image>
       </ImageView>
-      <VBox layoutX="530.0" layoutY="450.0" prefHeight="200.0" prefWidth="300.0">
+      <VBox layoutX="530.0" layoutY="352.0" prefHeight="328.0" prefWidth="300.0">
          <children>
-            <ImageView fx:id="ivNewGame" fitHeight="250.0" fitWidth="290.0" onMouseClicked="#NewGameClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="250.0" fitWidth="290.0" onMouseClicked="#NewGameClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/newGame.png" />
                </image>
                <VBox.margin>
-                  <Insets bottom="50.0" />
+                  <Insets bottom="25.0" />
                </VBox.margin>
             </ImageView>
-            <ImageView fx:id="ivLoadGame" fitHeight="250.0" fitWidth="290.0" onMouseClicked="#AboutUs" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="250.0" fitWidth="290.0" onMouseClicked="#AboutUs" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/aboutUs.png" />
                </image>
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="25.0" />
                </VBox.margin>
+            </ImageView>
+            <ImageView fitHeight="250.0" fitWidth="290.0" onMouseClicked="#QuitGame" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/quitButton.png" />
+               </image>
             </ImageView>
          </children>
       </VBox>

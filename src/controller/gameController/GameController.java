@@ -1,13 +1,17 @@
-package gui;
+package controller.gameController;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import aiClass.Ai;
+import controller.aiClass.Ai;
+import controller.ChangeScene;
 import controller.SPController;
-import deck.Card;
-import hand.Hand;
+import controller.Sound;
+import controller.sceneControllers.RuleController;
+import model.Card;
+import model.Scenes;
+import view.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -192,7 +196,7 @@ public class GameController {
   private int prevPlayerActive;
   private String winnerHand = " ";
   private Sound sound = new Sound();
-  private TutorialController tutorialWindow;
+  private Tutorial tutorialWindow;
   private int AllInViability = 0;
   private Label[] collectionOfPots;
 
@@ -231,6 +235,8 @@ public class GameController {
 
     // Used by method: inactivateAllAiCardGlows and aiAction.
     this.prevPlayerActive = -1;
+
+    setUsername("Du");
   }
 
 
@@ -1201,8 +1207,7 @@ public class GameController {
    *
    */
   public void goToMainMenu() {
-
-    changeScene.switchToMainMenu();
+    ChangeScene.switchScene(Scenes.MainMenu);
   }
 
 
@@ -1211,8 +1216,7 @@ public class GameController {
    */
   public void aboutBox() {
 
-    confirmBox = new ConfirmBox();
-    confirmBox.display("Om projektet",
+    ConfirmBox.display("Om projektet",
         "Detta projekt är format och skapat av "
             + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
             + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
@@ -1244,7 +1248,7 @@ public class GameController {
           "Tyvärr, du förlorade och dina pengar är slut. Bättre lycka nästa gång!", 5,
           winnerHand);
 
-      changeScene.switchToMainMenu();
+      ChangeScene.switchScene(Scenes.MainMenu);
 
     });
   }
@@ -1400,7 +1404,7 @@ public class GameController {
   public void goToTutorial() {
 
     Platform.runLater(() -> {
-      this.tutorialWindow = new TutorialController(this);
+      this.tutorialWindow = new Tutorial(this);
       try {
         tutorialWindow.setupUIinGame();
       } catch (IOException e) {

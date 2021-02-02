@@ -1,7 +1,11 @@
-package gui;
+package controller.sceneControllers;
 
 import java.io.IOException;
+
+import controller.ChangeScene;
 import controller.SPController;
+import controller.Sound;
+import controller.gameController.ProgressForm;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -11,6 +15,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import model.Scenes;
+import view.ConfirmBox;
+import view.Tutorial;
 
 /**
  * Controller for FXML-doc GameSettingMenu.fxml
@@ -63,7 +70,7 @@ public class SettingsController {
 	private ImageView btnNext;
 
 	private Sound sound = new Sound();
-	private TutorialController tutorialWindow;
+	private Tutorial tutorialWindow;
 
 	/**
 	 * Method for initializing FXML. 
@@ -159,7 +166,7 @@ public class SettingsController {
 				Platform.runLater(() -> {
 
 				try {
-					this.tutorialWindow = new TutorialController(this, 1);
+					this.tutorialWindow = new Tutorial(this, 1);
 					tutorialWindow.setupUI();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -173,11 +180,7 @@ public class SettingsController {
 			}
 		} else if (tfNameInput.getText().isEmpty()) {
 			sound.playSound("wrong");
-			confirmBox = new ConfirmBox();
-			boolean result =
-					confirmBox.display("Varning", "Du måste välja ett användarnamn för att starta spelet");
-			System.out.println("Du måste välja ett användarnamn");
-			System.out.println(result);
+			ConfirmBox.display("Varning", "Du måste välja ett användarnamn för att starta spelet");
 
 		}
 
@@ -210,16 +213,12 @@ public class SettingsController {
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
 
-			changeScene.switchSceneToGame();
-			ConfirmBox cfBox = new ConfirmBox();
-
-			if (cfBox.display("Snart börjar spelet", "Nu kör vi!")) {
-				spController.startGame(aiValue, potValue, name);
-				Sound.mp.stop();
-				sound.playSound("shuffle");
-			} else {
-				changeScene.switchToMainMenu();
-			}
+			ChangeScene.switchScene(Scenes.Game);
+			ConfirmBox.display("Snart börjar spelet", "Dags at spela poker! Glömmer du reglerna så hittar du" +
+					" dem högst upp i menyn.\n\nNu kör vi!");
+			spController.startGame(aiValue, potValue, name);
+			sound.stopMusic();
+			sound.playSound("shuffle");
 		});
 		System.out.println("Spel startas!");
 	}
@@ -254,13 +253,10 @@ public class SettingsController {
 	}
 
 	/**
-	 *  Tells class changeScene to perform the swithScene-action. 
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
+	 *  Tells class changeScene to perform the swithScene-action.
 	 */
-	public void back() throws InstantiationException, IllegalAccessException {
-		changeScene.switchToMainMenu();
-		// Main.window.setScene(changeScene.sceneMenu);
+	public void back() {
+		ChangeScene.switchScene(Scenes.MainMenu);
 	}
 
 	/**
