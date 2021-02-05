@@ -5,7 +5,7 @@ import java.io.IOException;
 import controller.ChangeScene;
 import controller.SPController;
 import controller.Sound;
-import controller.gameController.ProgressForm;
+import controller.gameControllers.ProgressForm;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;

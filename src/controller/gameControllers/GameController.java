@@ -1,10 +1,10 @@
-package controller.gameController;
+package controller.gameControllers;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import controller.aiClass.Ai;
+import controller.aiControllers.Ai;
 import controller.ChangeScene;
 import controller.SPController;
 import controller.Sound;

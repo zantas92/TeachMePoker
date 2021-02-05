@@ -3,7 +3,7 @@ package view;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import controller.gameController.GameController;
+import controller.gameControllers.GameController;
 import controller.sceneControllers.RuleController;
 import controller.sceneControllers.SettingsController;
 import javafx.event.EventHandler;

@@ -3,10 +3,10 @@ package controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import controller.aiClass.Ai;
+import controller.aiControllers.Ai;
 import model.Card;
 import model.Deck;
-import controller.gameController.GameController;
+import controller.gameControllers.GameController;
 
 
 /**

@@ -3,8 +3,9 @@ package controller;
 import java.io.IOException;
 import java.util.HashMap;
 
-import controller.gameController.GameController;
+import controller.gameControllers.GameController;
 import controller.sceneControllers.FMController;
+import controller.sceneControllers.MenuBarController;
 import controller.sceneControllers.SettingsController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,13 +23,14 @@ import model.Scenes;
  */
 
 public class ChangeScene {
-  Pane menuBar;
-  Scene scene;
+  private Pane menuBar;
+  private Scene scene;
   private static BorderPane borderPane;
   private static SettingsController settingsController;
   private static GameController gameController;
   private static MenuBarController menuBarController;
   private static HashMap<Scenes, Pane> scenesMap = new HashMap<>();
+  private static Scenes currentScene;
 
   /**
    * Method which prepares the FXMLs and by extension the game itself.
@@ -41,13 +43,13 @@ public class ChangeScene {
     loadScenes();
 
     this.scene = new Scene(scenesMap.get(Scenes.MainMenu));
+    currentScene = Scenes.MainMenu;
 
     scene.setRoot(borderPane);
     borderPane.setCenter(scenesMap.get(Scenes.MainMenu));
 
     gameController.setChangeScene(this);
     settingsController.setChangeScene(this);
-    menuBarController.setChangeScene(this);
 
   }
 
@@ -80,6 +82,7 @@ public class ChangeScene {
   public static void switchScene(Scenes nextScene){
     borderPane.setCenter(scenesMap.get(nextScene));
     additionalSettings(nextScene);
+    currentScene=nextScene;
   }
 
   private static void additionalSettings(Scenes nextScene) {
@@ -105,6 +108,10 @@ public class ChangeScene {
    */
   public void setSPController(SPController spController) {
     gameController.setSPController(spController);
+  }
+
+  public static Scenes getCurrentScene(){
+    return currentScene;
   }
 
 }

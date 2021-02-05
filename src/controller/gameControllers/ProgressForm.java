@@ -1,4 +1,4 @@
-package controller.gameController;
+package controller.gameControllers;
 
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;

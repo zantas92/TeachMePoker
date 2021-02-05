@@ -3,7 +3,7 @@ package testClasses;
 
 import java.util.ArrayList;
 
-import controller.aiClass.Ai;
+import controller.aiControllers.Ai;
 import model.Card;
 import model.Deck;
 /**

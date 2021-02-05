@@ -2,7 +2,7 @@ package testClasses;
 
 import java.util.ArrayList;
 
-import controller.gameController.Hand;
+import controller.gameControllers.Hand;
 import model.Card;
 import model.Deck;
 
