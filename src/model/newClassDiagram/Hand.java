@@ -1,4 +1,6 @@
-package model;
+package model.newClassDiagram;
+
+import model.Card;
 
 import java.util.ArrayList;
 

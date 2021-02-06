@@ -17,8 +17,7 @@ public class Main extends Application {
 	public ChangeScene cs = new ChangeScene();
 
 	/**
-	 * The applications calls start(Stage primaryStage) after launch has been
-	 * executed.
+	 * Called when the application is launched.
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		window = primaryStage;
@@ -35,8 +34,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Launch the application.
-	 * 
+	 * Launches the application.
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -45,7 +43,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Closes the window and exits the program.
+	 * Shows pop-up to confirm closing. Closes the window and exits the program if confirmed.
 	 */
 	public void closeProgram() {
 		if (ConfirmBox.yesNoOption("Avsluta?", "Ingenting sparas när du avslutar spelet. Är du säker på att" +

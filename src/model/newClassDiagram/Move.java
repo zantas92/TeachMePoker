@@ -1,4 +1,4 @@
-package model;
+package model.newClassDiagram;
 
 public class Move {
     private Player player;

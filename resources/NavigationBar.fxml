@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="40.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.sceneControllers.MenuBarController">
+<VBox prefHeight="40.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.sceneControllers.NavigationBarController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3D3D3D;">
          <children>
@@ -18,15 +16,24 @@
                </image>
             </ImageView>
             <Label fx:id="testLabel" layoutX="337.0" layoutY="12.0" text="Button is working!" textFill="WHITE" visible="false" />
-            <MenuButton layoutX="1011.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: black; -fx-background-radius: 15;" text="MenuButton" textFill="WHITE">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Just" />
-                <MenuItem mnemonicParsing="false" text="Testing" />
-              </items>
-            </MenuButton>
             <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="1240.0" layoutY="6.0" onMouseReleased="#exitPressed">
                <image>
                   <Image url="@images/exitButton.png" />
+               </image>
+            </ImageView>
+            <ImageView id="rulesButton.png" fitHeight="35.0" fitWidth="35.0" layoutX="623.0" layoutY="4.0" onMouseReleased="#rulesButtonClicked">
+               <image>
+                  <Image url="@images/rulesButton.png" />
+               </image>
+            </ImageView>
+            <ImageView id="soundButton.png" fx:id="ivSound" fitHeight="35.0" fitWidth="35.0" layoutX="762.0" layoutY="3.0" onMouseReleased="#soundButtonClicked">
+               <image>
+                  <Image url="@images/soundButton.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="486.0" layoutY="3.0" onMouseReleased="#tutorialButtonClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/questionmark.png" />
                </image>
             </ImageView>
          </children>

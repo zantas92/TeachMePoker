@@ -4,14 +4,12 @@
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
@@ -20,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gameControllers.GameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gameControllers.GameController">
 	<children>
 		<AnchorPane id="AnchorPaneAll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0">
 			<children>
@@ -32,16 +30,6 @@
 				<ImageView id="table.png" fitHeight="379.0" fitWidth="916.0" layoutX="211.0" layoutY="120.0">
 					<image>
 						<Image url="@images/table.png" />
-					</image>
-				</ImageView>
-				<ImageView id="rulesButton.png" fitHeight="45.0" fitWidth="45.0" layoutX="1150.0" layoutY="40.0" onMouseReleased="#rulesState">
-					<image>
-						<Image url="@images/rulesButton.png" />
-					</image>
-				</ImageView>
-				<ImageView id="soundButton.png" fx:id="ivSound" fitHeight="45.0" fitWidth="45.0" layoutX="1220.0" layoutY="40.0" onMouseReleased="#soundSetting">
-					<image>
-						<Image url="@images/soundButton.png" />
 					</image>
 				</ImageView>
 				<ImageView id="saveButton.png" disable="true" fitHeight="45.0" fitWidth="45.0" layoutX="1230.0" layoutY="100.0" onMouseReleased="#saveGame" visible="false">
@@ -79,27 +67,6 @@
 					</effect>
 				</Slider>
 				<Pane id="pane" fx:id="playerCardsArea" layoutX="570.0" layoutY="395.0" prefHeight="131.0" prefWidth="203.0" />
-				<MenuBar layoutX="0.0" layoutY="0.0" mouseTransparent="false" prefWidth="1280.0">
-					<menus>
-						<Menu mnemonicParsing="false" text="Meny">
-							<items>
-								<MenuItem fx:id="miNewGame" mnemonicParsing="false" onAction="#goToMainMenu" text="Huvudmeny" />
-								<MenuItem fx:id="miClose" mnemonicParsing="false" onAction="#closeProgram" text="Stäng" />
-							</items>
-						</Menu>
-						<Menu mnemonicParsing="false" text="Hjälp">
-							<items>
-								<MenuItem fx:id="miSettings" mnemonicParsing="false" onAction="#goToTutorial" text="Se Tutorial" />
-                        <MenuItem fx:id="miRules" mnemonicParsing="false" onAction="#rulesState" text="Regler" />
-							</items>
-						</Menu>
-						<Menu mnemonicParsing="false" text="Om">
-							<items>
-								<MenuItem fx:id="miAbout" mnemonicParsing="false" onAction="#aboutBox" text="Om projektet" />
-							</items>
-						</Menu>
-					</menus>
-				</MenuBar>
 				<TitledPane id="helpBox" alignment="TOP_CENTER" contentDisplay="LEFT" graphicTextGap="1.0" layoutX="114.0" layoutY="388.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="444.0" prefWidth="217.0" rotate="270.0" text="Hjälp">
 					<content>
 						<AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="180.0">

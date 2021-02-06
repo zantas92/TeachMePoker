@@ -170,8 +170,6 @@ public class GameController {
   public Label mainPot;
 
   private WinnerBox winnerBox;
-  private ConfirmBox confirmBox;
-  private ChangeScene changeScene;
   private int powerBarValue = 0;
   private Image image;
   private ArrayList<Card> cards = new ArrayList<Card>();
@@ -195,18 +193,15 @@ public class GameController {
   private int highCard;
   private int prevPlayerActive;
   private String winnerHand = " ";
-  private Sound sound = new Sound();
-  private Tutorial tutorialWindow;
   private int AllInViability = 0;
   private Label[] collectionOfPots;
 
 
   /**
    * Method for initializing FXML
-   * 
-   * @throws Exception
+   *
    */
-  public void initialize() throws Exception {
+  public void initialize() {
 
     // Groups together labels for each AI-position.
     this.collectionOfLabelsAi =
@@ -331,17 +326,6 @@ public class GameController {
 
 
   /**
-   * Sets the changeScene for this gameController
-   * 
-   * @param sceneChanger an instance of the class ChangeScene
-   */
-  public void setChangeScene(ChangeScene sceneChanger) {
-
-    this.changeScene = sceneChanger;
-  }
-
-
-  /**
    * Disables all buttons and shows player-frame's action as check.
    */
   public void playerCheck() {
@@ -351,7 +335,7 @@ public class GameController {
     lbPlayerAction.setText("check");
     playerMadeDecision = true;
     updatePlayerValues("Check");
-    sound.playSound("check");
+    Sound.playSound("check");
 
   }
 
@@ -366,7 +350,7 @@ public class GameController {
     lbPlayerAction.setText("fold");
     playerMadeDecision = true;
     updatePlayerValues("Fold");
-    sound.playSound("fold");
+    Sound.playSound("fold");
   }
 
 
@@ -387,7 +371,7 @@ public class GameController {
     this.alreadyPaid += (spController.getCurrentMaxBet() - alreadyPaid);
     this.decision = "call," + Integer.toString(alreadyPaid);
     playerMadeDecision = true;
-    sound.playSound("chipSingle");
+    Sound.playSound("chipSingle");
     updatePlayerValues("Call, §" + Integer.toString(alreadyPaid));
 
   }
@@ -418,7 +402,7 @@ public class GameController {
                                                                               // amount
 
     playerMadeDecision = true;
-    sound.playSound("chipMulti");
+    Sound.playSound("chipMulti");
 
     updatePlayerValues("Raise, §" + raisedBet);
 
@@ -508,44 +492,11 @@ public class GameController {
 
 
   /**
-   * Mutes the sound on and off.
-   */
-  public void soundSetting() {
-
-    if (sound.cardFold.getVolume() > 0) {
-      sound.cardFold.setVolume(0);
-      sound.checkSound.setVolume(0);
-      sound.chipMulti.setVolume(0);
-      sound.shuffleSound.setVolume(0);
-      sound.singleCard.setVolume(0);
-      sound.chipSingle.setVolume(0);
-      sound.chipMulti.setVolume(0);
-      sound.coinSound.setVolume(0);
-      sound.wrongSound.setVolume(0);
-    } else if (sound.cardFold.getVolume() == 0) {
-      sound.cardFold.setVolume(1);
-      sound.checkSound.setVolume(1);
-      sound.chipMulti.setVolume(1);
-      sound.shuffleSound.setVolume(1);
-      sound.singleCard.setVolume(1);
-      sound.chipSingle.setVolume(1);
-      sound.chipMulti.setVolume(1);
-      sound.coinSound.setVolume(1);
-      sound.wrongSound.setVolume(1);
-    }
-  }
-
-
-  /**
    * Creates a new ruleController.
    * 
    * @throws IOException
    */
-  public void rulesState() throws IOException {
 
-    RuleController rc = new RuleController();
-    rc.rules();
-  }
 
 
   /**
@@ -1193,36 +1144,6 @@ public class GameController {
   }
 
 
-  /**
-   * Force closes the program
-   */
-  public void closeProgram() {
-
-    System.exit(0);
-  }
-
-
-  /**
-   * Method which returns to the main menu
-   *
-   */
-  public void goToMainMenu() {
-    ChangeScene.switchScene(Scenes.MainMenu);
-  }
-
-
-  /**
-   * Method which creates an "about" box.
-   */
-  public void aboutBox() {
-
-    ConfirmBox.display("Om projektet",
-        "Detta projekt är format och skapat av "
-            + "Vedrana Zeba, Rikard Almgren, Amin Harirchian, Max Frennessen och Lykke Levin under "
-            + "vårterminen 2017 som en del av kursen Systemutveckling och projekt 1.");
-
-  }
-
 
   /**
    * Method which returns if the UI is ready
@@ -1375,14 +1296,14 @@ public class GameController {
       });
     } else if (winner.equals(getUsername()) && (hand < 10)) {
       Platform.runLater(() -> {
-        sound.playSound("coinSound");
+        Sound.playSound("coinSound");
         winnerBox = new WinnerBox();
         winnerBox.displayWinner("Rundans vinnare", winner, 1, winnerHand);
 
       });
     } else if (winner.equals(getUsername()) && (hand > 10)) {
       Platform.runLater(() -> {
-        sound.playSound("coinSound");
+        Sound.playSound("coinSound");
         winnerBox = new WinnerBox();
         winnerBox.displayWinner("Rundans vinnare", winner, 3, winnerHand);
 
@@ -1397,22 +1318,7 @@ public class GameController {
   }
 
 
-  /**
-   * Method which creates a new tutorial and shows it.
-   *
-   */
-  public void goToTutorial() {
 
-    Platform.runLater(() -> {
-      this.tutorialWindow = new Tutorial(this);
-      try {
-        tutorialWindow.setupUIinGame();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    });
-
-  }
 
 
   /**
