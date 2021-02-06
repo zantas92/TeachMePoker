@@ -1,6 +1,8 @@
-package model;
+package model.newClassDiagram;
 
-import java.lang.reflect.Array;
+import model.Card;
+import model.Deck;
+
 import java.util.ArrayList;
 
 public class Game {

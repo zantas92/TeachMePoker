@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import model.Scenes;
 import view.ConfirmBox;
 import view.Tutorial;
@@ -30,7 +29,6 @@ public class SettingsController {
 	private SPController spController;
 
 	private ChangeScene changeScene;
-	private ConfirmBox confirmBox;
 	private String name;
 	private int aiValue;
 	private int potValue;
@@ -59,24 +57,11 @@ public class SettingsController {
 	private Label lblPotInfo;
 	@FXML
 	private Label lblTutorialInfo;
-	@FXML
-	private ImageView ivBack;
-
-	@FXML
-	private ImageView imgTutorial;
-	@FXML
-	private Pane tutorialPane;
-	@FXML
-	private ImageView btnNext;
-
-	private Sound sound = new Sound();
-	private Tutorial tutorialWindow;
 
 	/**
-	 * Method for initializing FXML. 
-	 * @throws Exception
+	 * Method for initializing FXML.
 	 */
-	public void initialize() throws Exception {
+	public void initialize() {
 		potSlider.setSnapToTicks(true);
 		potSlider.setValue(5000);
 		aiSlider.setSnapToTicks(true);
@@ -147,8 +132,7 @@ public class SettingsController {
 	}
 
 	/**
-	 * Starts the game and checks so the Username it not empty and checks if the Tutorial should be playing at the beginning. 
-	 * @throws IOException
+	 * Starts the game and checks so the Username it not empty and checks if the Tutorial should be playing at the beginning.
 	 */
 	public void startGame() {
 
@@ -164,14 +148,9 @@ public class SettingsController {
 			if (cbOn.isSelected()) {
 				System.out.println("Tutorial ska visas");
 				Platform.runLater(() -> {
+					Tutorial tutorial = new Tutorial(this);
+					tutorial.showTutorial();
 
-				try {
-					this.tutorialWindow = new Tutorial(this, 1);
-					tutorialWindow.setupUI();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				});
 
 			} else{
@@ -179,7 +158,7 @@ public class SettingsController {
 				startGameWindow();
 			}
 		} else if (tfNameInput.getText().isEmpty()) {
-			sound.playSound("wrong");
+			Sound.playSound("wrong");
 			ConfirmBox.display("Varning", "Du måste välja ett användarnamn för att starta spelet");
 
 		}
@@ -217,8 +196,8 @@ public class SettingsController {
 			ConfirmBox.display("Snart börjar spelet", "Dags at spela poker! Glömmer du reglerna så hittar du" +
 					" dem högst upp i menyn.\n\nNu kör vi!");
 			spController.startGame(aiValue, potValue, name);
-			sound.stopMusic();
-			sound.playSound("shuffle");
+			Sound.stopMusic();
+			Sound.playSound("shuffle");
 		});
 		System.out.println("Spel startas!");
 	}

@@ -1,4 +1,6 @@
-package model;
+package model.newClassDiagram;
+
+import model.newClassDiagram.Hand;
 
 public class Player {
     private String name;

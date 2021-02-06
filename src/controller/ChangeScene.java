@@ -5,12 +5,14 @@ import java.util.HashMap;
 
 import controller.gameControllers.GameController;
 import controller.sceneControllers.FMController;
-import controller.sceneControllers.MenuBarController;
+import controller.sceneControllers.NavigationBarController;
 import controller.sceneControllers.SettingsController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import model.Scenes;
 
 /**
@@ -23,14 +25,15 @@ import model.Scenes;
  */
 
 public class ChangeScene {
-  private Pane menuBar;
+  private Pane navigationBar;
   private Scene scene;
   private static BorderPane borderPane;
   private static SettingsController settingsController;
   private static GameController gameController;
-  private static MenuBarController menuBarController;
+  private static NavigationBarController navigationBarController;
   private static HashMap<Scenes, Pane> scenesMap = new HashMap<>();
   private static Scenes currentScene;
+  private static StackPane stackPane;
 
   /**
    * Method which prepares the FXMLs and by extension the game itself.
@@ -46,10 +49,13 @@ public class ChangeScene {
     currentScene = Scenes.MainMenu;
 
     scene.setRoot(borderPane);
-    borderPane.setCenter(scenesMap.get(Scenes.MainMenu));
+    stackPane = new StackPane();
+    stackPane.getChildren().add(scenesMap.get(Scenes.MainMenu));
 
-    gameController.setChangeScene(this);
+    borderPane.setCenter(stackPane);
+
     settingsController.setChangeScene(this);
+
 
   }
 
@@ -69,18 +75,19 @@ public class ChangeScene {
     Pane gameState = loaderGameState.load();
     gameController = loaderGameState.getController();
 
-    FXMLLoader loaderMenuBar = new FXMLLoader(FMController.class.getResource("/MenuBar.fxml"));
-    menuBar = loaderMenuBar.load();
-    menuBarController = loaderMenuBar.getController();
+    FXMLLoader loaderNavigationBar = new FXMLLoader(FMController.class.getResource("/NavigationBar.fxml"));
+    navigationBar = loaderNavigationBar.load();
+    navigationBarController = loaderNavigationBar.getController();
 
     scenesMap.put(Scenes.MainMenu, firstMenu);
     scenesMap.put(Scenes.GameSetup, gameSettingsMenu);
     scenesMap.put(Scenes.Game, gameState);
-    borderPane.setTop(menuBar);
+    borderPane.setTop(navigationBar);
   }
 
   public static void switchScene(Scenes nextScene){
-    borderPane.setCenter(scenesMap.get(nextScene));
+    stackPane.getChildren().remove(scenesMap.get(currentScene));
+    stackPane.getChildren().add((scenesMap.get(nextScene)));
     additionalSettings(nextScene);
     currentScene=nextScene;
   }
@@ -110,8 +117,21 @@ public class ChangeScene {
     gameController.setSPController(spController);
   }
 
+  /**
+   * Returns the Enum of the currently displayed scene.
+   * @return Current scene
+   */
   public static Scenes getCurrentScene(){
     return currentScene;
+  }
+
+  public static void displayOverlay(Pane pane){
+    stackPane.getChildren().add((pane));
+    System.out.println("showing new pane");
+  }
+
+  public static void removeOverlay(Pane pane){
+    stackPane.getChildren().remove(pane);
   }
 
 }

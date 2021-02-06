@@ -12,30 +12,26 @@ import javafx.stage.Stage;
  *
  */
 public class RuleController{
-
-	public Stage window = new Stage();
 	
 	/**
-	 * Creates a window and sets the correct FXML as the scene. 
-	 * @throws IOException
+	 * Creates a window and sets the correct FXML as the scene.
 	 */
-	public void rules() throws IOException{
+	public static void rules() {
+		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Regler");
 		window.setWidth(1100);
 		window.setHeight(633);
-		window.setOnCloseRequest(e -> closeProgram());
-		Pane mainPane = FXMLLoader.load(RuleController.class.getResource("/Rules.fxml"));
+		window.setOnCloseRequest(e -> window.close());
+		Pane mainPane = null;
+		try {
+			mainPane = FXMLLoader.load(RuleController.class.getResource("/Rules.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Scene scene = new Scene(mainPane);
 		window.setScene(scene);
 		window.show();
-	}
-	
-	/**
-	 * Closes the window.
-	 */
-	public void closeProgram() {
-		window.close();
 	}
 
 }
