@@ -34,6 +34,7 @@ public class ChangeScene {
   private static HashMap<Scenes, Pane> scenesMap = new HashMap<>();
   private static Scenes currentScene;
   private static StackPane stackPane;
+  private static boolean overlayShowing = false;
 
   /**
    * Method which prepares the FXMLs and by extension the game itself.
@@ -51,12 +52,9 @@ public class ChangeScene {
     scene.setRoot(borderPane);
     stackPane = new StackPane();
     stackPane.getChildren().add(scenesMap.get(Scenes.MainMenu));
-
     borderPane.setCenter(stackPane);
 
     settingsController.setChangeScene(this);
-
-
   }
 
   /**
@@ -126,8 +124,10 @@ public class ChangeScene {
   }
 
   public static void displayOverlay(Pane pane){
-    stackPane.getChildren().add((pane));
-    System.out.println("showing new pane");
+    if (!overlayShowing) {
+      stackPane.getChildren().add((pane));
+      System.out.println("showing new pane");
+    }
   }
 
   public static void removeOverlay(Pane pane){
