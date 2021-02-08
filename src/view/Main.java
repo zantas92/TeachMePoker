@@ -1,6 +1,6 @@
 package view;
 
-import controller.ChangeScene;
+import controller.SceneController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	public static Stage window;
-	public ChangeScene cs = new ChangeScene();
+	public SceneController cs = new SceneController();
 
 	/**
 	 * Called when the application is launched.

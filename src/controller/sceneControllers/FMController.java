@@ -1,11 +1,9 @@
 package controller.sceneControllers;
 
-import controller.ChangeScene;
+import controller.SceneController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import model.Scenes;
 import view.ConfirmBox;
 
@@ -20,7 +18,7 @@ import javax.swing.text.html.ImageView;
  */
 
 public class FMController {
-	private ChangeScene sceneChanger;
+	private SceneController sceneChanger;
 	@FXML
 	ImageView ivQuit;
 
@@ -35,9 +33,9 @@ public class FMController {
 	/**
 	 * Sets the changeScene for this FMController
 	 * 
-	 * @param sceneChanger an instance of the class ChangeScene
+	 * @param sceneChanger an instance of the class SceneController
 	 */
-	public void setSceneChanger(ChangeScene sceneChanger) {
+	public void setSceneChanger(SceneController sceneChanger) {
 		this.sceneChanger = sceneChanger;
 
 	}
@@ -46,9 +44,12 @@ public class FMController {
 	 * Tells class changeScene to perform the swithScene-action.
 	 */
 	public void NewGameClicked() {
-		ChangeScene.switchScene(Scenes.GameSetup);
+		SceneController.switchScene(Scenes.GameSetup);
 	}
 
+	/**
+	 * Shows the information about the creators of the project
+	 */
 	public void AboutUs() {
 		ConfirmBox.display("Om projektet",
 				"Detta projekt är format och skapat av "
@@ -59,6 +60,10 @@ public class FMController {
 						" i kursen Systemutveckling II");
 	}
 
+	/**
+	 * Exits the game
+	 * @param mouseEvent
+	 */
 	public void QuitGame(MouseEvent mouseEvent) {
 		Platform.exit();
 	}

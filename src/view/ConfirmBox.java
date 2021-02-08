@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Window with text and buttons containing a message.
  * 
- * @author Lykke Levin
+ * @author Lykke Levin, Niklas Hultin
  * @version 1.0
  *
  */
@@ -22,10 +22,9 @@ public class ConfirmBox {
 
 
   /**
-   * Creates a window containing a message. 
+   * Creates a window containing an informative message with only an OK-button.
    * @param title String title of the window from the classes that uses ConfirmBox. 
-   * @param message String message to display in the window from the classes that uses ConfirmBox. 
-   * @return answer Boolean that returns an answer. 
+   * @param message String message to display in the window from the classes that uses ConfirmBox.
    */
   public static void display(String title, String message) {
     Stage window = new Stage();
@@ -59,6 +58,12 @@ public class ConfirmBox {
     window.showAndWait();
   }
 
+  /**
+   * Creates a window containing an question with Yes and No buttons.
+   * @param title String title of the window from the classes that uses ConfirmBox.
+   * @param message String message to display in the window from the classes that uses ConfirmBox.
+   * @return The users answer (Yes = true, No = false)
+   */
   public static boolean yesNoOption(String title, String message) {
     Stage window = new Stage();
     Font font = new Font("Tw Cen MT", 18);

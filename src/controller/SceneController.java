@@ -5,39 +5,35 @@ import java.util.HashMap;
 
 import controller.gameControllers.GameController;
 import controller.sceneControllers.FMController;
-import controller.sceneControllers.NavigationBarController;
 import controller.sceneControllers.SettingsController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import model.Scenes;
 
 /**
- * Class that handles the switching of scenes in the main window and the gui controll class that
- * manages that scene.
+ * Handles the changing of scenes and display of overlays
  * 
- * @author Lykke Levin & Rikard Almgren
+ * @author Niklas Hultin
  * @version 1.0
  *
  */
 
-public class ChangeScene {
+public class SceneController {
   private Pane navigationBar;
   private Scene scene;
   private static BorderPane borderPane;
   private static SettingsController settingsController;
   private static GameController gameController;
-  private static NavigationBarController navigationBarController;
-  private static HashMap<Scenes, Pane> scenesMap = new HashMap<>();
+  private static HashMap<Scenes, Pane> paneMap = new HashMap<>(); //Hashmap stores each Pane with its respective Enum.
   private static Scenes currentScene;
   private static StackPane stackPane;
   private static boolean overlayShowing = false;
 
   /**
-   * Method which prepares the FXMLs and by extension the game itself.
+   * Sets up the initial window then game is started
    * 
    * @throws IOException
    */
@@ -46,19 +42,19 @@ public class ChangeScene {
     Sound.playBackgroundMusic();
     loadScenes();
 
-    this.scene = new Scene(scenesMap.get(Scenes.MainMenu));
+    this.scene = new Scene(paneMap.get(Scenes.MainMenu));
     currentScene = Scenes.MainMenu;
 
     scene.setRoot(borderPane);
     stackPane = new StackPane();
-    stackPane.getChildren().add(scenesMap.get(Scenes.MainMenu));
+    stackPane.getChildren().add(paneMap.get(Scenes.MainMenu));
     borderPane.setCenter(stackPane);
 
     settingsController.setChangeScene(this);
   }
 
   /**
-   * Loads and stores the scenes used in the application.
+   * Loads and stores the scenes used in the application and puts them in the HashMap
    */
   public void loadScenes() throws IOException {
     FXMLLoader loaderFirstMenu = new FXMLLoader(FMController.class.getResource("/FirstMenu.fxml"));
@@ -75,17 +71,16 @@ public class ChangeScene {
 
     FXMLLoader loaderNavigationBar = new FXMLLoader(FMController.class.getResource("/NavigationBar.fxml"));
     navigationBar = loaderNavigationBar.load();
-    navigationBarController = loaderNavigationBar.getController();
 
-    scenesMap.put(Scenes.MainMenu, firstMenu);
-    scenesMap.put(Scenes.GameSetup, gameSettingsMenu);
-    scenesMap.put(Scenes.Game, gameState);
+    paneMap.put(Scenes.MainMenu, firstMenu);
+    paneMap.put(Scenes.GameSetup, gameSettingsMenu);
+    paneMap.put(Scenes.Game, gameState);
     borderPane.setTop(navigationBar);
   }
 
   public static void switchScene(Scenes nextScene){
-    stackPane.getChildren().remove(scenesMap.get(currentScene));
-    stackPane.getChildren().add((scenesMap.get(nextScene)));
+    stackPane.getChildren().remove(paneMap.get(currentScene));
+    stackPane.getChildren().add((paneMap.get(nextScene)));
     additionalSettings(nextScene);
     currentScene=nextScene;
   }
@@ -123,15 +118,28 @@ public class ChangeScene {
     return currentScene;
   }
 
-  public static void displayOverlay(Pane pane){
+  /**
+   * Adds an overlane with the corresponding pane
+   * @param pane Pane with the FXML to show
+   * @return true if the overlay is being displayed and false if not.
+   */
+  public static boolean displayOverlay(Pane pane){
     if (!overlayShowing) {
       stackPane.getChildren().add((pane));
       System.out.println("showing new pane");
+      overlayShowing = true;
+      return true;
     }
+    return false;
   }
 
+  /**
+   * Removes the overlay for the corresponding pane
+   * @param pane Pane with the FXML to remove
+   */
   public static void removeOverlay(Pane pane){
     stackPane.getChildren().remove(pane);
+    overlayShowing = false;
   }
 
 }

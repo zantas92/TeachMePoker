@@ -3,20 +3,14 @@ package view;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import controller.ChangeScene;
-import controller.gameControllers.GameController;
+import controller.SceneController;
 import controller.sceneControllers.RuleController;
 import controller.sceneControllers.SettingsController;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
  * Tutorial state.
@@ -37,6 +31,8 @@ public class Tutorial {
 	public static int tutorialProgress;
 	public SettingsController settingsController;
 
+	private static boolean isRunning = false;
+
 
 	/**
 	 * Creates the tutorial window object, does not show the window.
@@ -52,19 +48,27 @@ public class Tutorial {
 	public Tutorial() {
 	}
 
+	/**
+	 * Initializes the tutorial and sends it for show as overlay. isRunning keeps track on whether it was allowed to be
+	 * displayed or not, to prevent duplicate windows from opening.
+	 */
 	public void showTutorial(){
+		if (!isRunning) {
+			try {
+				tutorialPane = FXMLLoader.load(RuleController.class.getResource("/Tutorial.fxml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
-		try {
-			tutorialPane = FXMLLoader.load(RuleController.class.getResource("/Tutorial.fxml"));
-		} catch (IOException e) {
-			e.printStackTrace();
+			tutorialProgress = 0;
+			placeImg();
+			isRunning = SceneController.displayOverlay(tutorialPane);
 		}
-
-		tutorialProgress = 0;
-		placeImg();
-		ChangeScene.displayOverlay(tutorialPane);
 	}
 
+	/**
+	 * Runs everytime the user presses Next to update the picture.
+	 */
 	public void placeImg(){
 		System.out.println("button pressed");
 		tutorialProgress = tutorialProgress+1;
@@ -98,13 +102,21 @@ public class Tutorial {
 		}
 	}
 
+	/**
+	 * Skips the rest of the tutorial.
+	 */
 	public void skipTutorial() {
 		if (ConfirmBox.yesNoOption("Hoppa över", "Är du säker på att du vill hoppa över introduktionen?")){
 			closeTutorial();
 		}
 	}
+
+	/**
+	 * Closes the overlay and, if shown together with launch of game, launches the game.
+	 */
 	private void closeTutorial() {
-		ChangeScene.removeOverlay(tutorialPane);
+		isRunning = false;
+		SceneController.removeOverlay(tutorialPane);
 		if (settingsController!=null) {
 			settingsController.startGameWindow();
 		}

@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import controller.SceneController;
 import controller.aiControllers.Ai;
-import controller.ChangeScene;
 import controller.SPController;
 import controller.Sound;
-import controller.sceneControllers.RuleController;
 import model.Card;
 import model.Scenes;
-import view.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -1169,7 +1168,7 @@ public class GameController {
           "Tyvärr, du förlorade och dina pengar är slut. Bättre lycka nästa gång!", 5,
           winnerHand);
 
-      ChangeScene.switchScene(Scenes.MainMenu);
+      SceneController.switchScene(Scenes.MainMenu);
 
     });
   }

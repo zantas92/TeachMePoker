@@ -78,10 +78,16 @@ public class Sound {
 		wrongSound.setVolume(volume);
 	}
 
+	/**
+	 * Toggles the sound on and off.
+	 */
 	public static void toggleMute(){
 		mp.setMute(!mp.isMute());
 	}
 
+	/**
+	 * Stops the music.
+	 */
 	public static void stopMusic(){
 		mp.stop();
 	}

@@ -1,8 +1,7 @@
 package controller.sceneControllers;
 
-import controller.ChangeScene;
+import controller.SceneController;
 import controller.Sound;
-import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -14,11 +13,11 @@ import model.Scenes;
 import view.ConfirmBox;
 import view.Tutorial;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 
 /**
- * Controller for the navigation menu at the top.
+ * Controller for the navigation menu at the top which allows the user to go back to main menu, exit the application,
+ * open the rulebook or the tutorial and control sound.
  *
  * @author Niklas Hultin
  * @version 1.0
@@ -37,10 +36,10 @@ public class NavigationBarController {
      * @param mouseEvent
      */
     public void goToHome(MouseEvent mouseEvent) {
-        if (ChangeScene.getCurrentScene() != Scenes.MainMenu) {
+        if (SceneController.getCurrentScene() != Scenes.MainMenu) {
             if (ConfirmBox.yesNoOption("Gå tillbaka till huvudmenyn?", "Ingenting kommer att sparas. Är du säker" +
                     " på att du vill gå tillbaka till huvudmenyn?")) {
-                ChangeScene.switchScene(Scenes.MainMenu);
+                SceneController.switchScene(Scenes.MainMenu);
             }
         }
     }
@@ -54,12 +53,16 @@ public class NavigationBarController {
         Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
+    /**
+     * Opens the rules information, with the wordlist and hand-tiers available, as an overlay.
+     * @param mouseEvent
+     */
     public void rulesButtonClicked(MouseEvent mouseEvent) {
         RuleController.rules();
     }
 
     /**
-     * Currently only mute is implemented. Possible to extend with a slider for volume control.
+     * Mutes or unmutes the sound.
      * @param mouseEvent
      */
     public void soundButtonClicked(MouseEvent mouseEvent) {
@@ -71,7 +74,15 @@ public class NavigationBarController {
         Sound.toggleMute();
     }
 
+    //TODO: Implement a method for volume control and GUI to allow the change of volume (possible to have separate
+    //controls for music and SFX.
+
+    /**
+     * Opens up the tutorial as an overlay.
+     * @param mouseEvent
+     */
     public void tutorialButtonClicked(MouseEvent mouseEvent) {
-        new Tutorial().showTutorial();
+        Tutorial tutorial = new Tutorial();
+        tutorial.showTutorial();
     }
 }

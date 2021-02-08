@@ -1,8 +1,6 @@
 package controller.sceneControllers;
 
-import java.io.IOException;
-
-import controller.ChangeScene;
+import controller.SceneController;
 import controller.SPController;
 import controller.Sound;
 import controller.gameControllers.ProgressForm;
@@ -28,7 +26,7 @@ import view.Tutorial;
 public class SettingsController {
 	private SPController spController;
 
-	private ChangeScene changeScene;
+	private SceneController sceneController;
 	private String name;
 	private int aiValue;
 	private int potValue;
@@ -76,12 +74,12 @@ public class SettingsController {
 	}
 
 	/**
-	 * Sets the changeScene for this SettingsController
-	 * @param sceneChanger an instance of the class ChangeScene
+	 * Sets the sceneController for this SettingsController
+	 * @param sceneChanger an instance of the class SceneController
 	 */
-	public void setChangeScene(ChangeScene sceneChanger) {
+	public void setChangeScene(SceneController sceneChanger) {
 
-		this.changeScene = sceneChanger;
+		this.sceneController = sceneChanger;
 	}
 
 	/**
@@ -142,7 +140,7 @@ public class SettingsController {
 		if (!tfNameInput.getText().isEmpty()) {
 			name = tfNameInput.getText();
 			spController = new SPController();
-			changeScene.setSPController(spController);
+			sceneController.setSPController(spController);
 
 
 			if (cbOn.isSelected()) {
@@ -192,7 +190,7 @@ public class SettingsController {
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
 
-			ChangeScene.switchScene(Scenes.Game);
+			SceneController.switchScene(Scenes.Game);
 			ConfirmBox.display("Snart börjar spelet", "Dags at spela poker! Glömmer du reglerna så hittar du" +
 					" dem högst upp i menyn.\n\nNu kör vi!");
 			spController.startGame(aiValue, potValue, name);
@@ -232,10 +230,10 @@ public class SettingsController {
 	}
 
 	/**
-	 *  Tells class changeScene to perform the swithScene-action.
+	 *  Tells class sceneController to perform the swithScene-action.
 	 */
 	public void back() {
-		ChangeScene.switchScene(Scenes.MainMenu);
+		SceneController.switchScene(Scenes.MainMenu);
 	}
 
 	/**
