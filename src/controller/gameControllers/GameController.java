@@ -630,7 +630,7 @@ public class GameController {
 
     Platform.runLater(() -> {
 
-      hand.reCalc();
+      hand.reCalc(spController.getAllKnownCards());
       playerCardsArea.requestLayout();
       playerCardsArea.getChildren().clear();
       String cardOne =
@@ -684,8 +684,8 @@ public class GameController {
       cards.add(c); // Adds cards from flop/turn/river
     }
 
-    this.hand = new Hand(cards);
-    hand.reCalc(); // Recalculates so the "new" set of cards gets highlighted
+    this.hand = new Hand(spController.getAllKnownCards());
+    hand.reCalc(spController.getAllKnownCards()); // Recalculates so the "new" set of cards gets highlighted
 
     Platform.runLater(() -> {
       tableCardArea.getChildren().clear(); // Clears if there's cards on the table (UI)

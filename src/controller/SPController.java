@@ -47,6 +47,8 @@ public class SPController extends Thread {
   private boolean doAllInCheck;
   private int psCounter = 0;
 
+  private ArrayList<Card> allKnownCards = new ArrayList<>();
+
 
   /**
    * Method which receives and sets a number of starting variables and for the game to be set up.
@@ -156,6 +158,10 @@ public class SPController extends Thread {
       deck.shuffle();
       card1 = deck.getCard();
       card2 = deck.getCard();
+
+      allKnownCards.add(card1);
+      allKnownCards.add(card2);
+
       gameController.setStartingHand(card1, card2);
       this.currentPotSize = 0;
       potSplits = new int[numberOfPlayers][1];
@@ -199,6 +205,11 @@ public class SPController extends Thread {
   }
 
 
+  public ArrayList<Card> getAllKnownCards() {
+    return allKnownCards;
+  }
+
+
   /**
    * Method that runs the gameround itself
    */
@@ -234,10 +245,16 @@ public class SPController extends Thread {
           }
         }
       } else if (playTurn == 1) {
+        allKnownCards.add(flop[0]);
+        allKnownCards.add(flop[1]);
+        allKnownCards.add(flop[2]);
         gameController.setFlopTurnRiver(flop);
+
       } else if (playTurn == 2) {
+        allKnownCards.add(turn);
         gameController.setFlopTurnRiver(turnCards);
       } else if (playTurn == 3) {
+        allKnownCards.add(river);
         gameController.setFlopTurnRiver(riverCards);
       }
 
@@ -330,6 +347,7 @@ public class SPController extends Thread {
     winnerDeclared = false;
     playTurn = 0;
     blindCounter++;
+    allKnownCards = new ArrayList<>();
     // update the blinds
     if (blindCounter >= 15) {
       bigBlind += (int) (potSize / numberOfPlayers * 0.02);

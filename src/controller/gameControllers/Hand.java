@@ -19,6 +19,9 @@ public class Hand {
 	private int pwrBar;
 	private int handStrenght;
 
+	//Oscars:
+	private CorrectHandCalc corrCalc;
+
 	/**
 	 * Constructor
 	 * @param cards gets card that are important for this turn.
@@ -27,8 +30,9 @@ public class Hand {
 		this.cards = cards;
 		convertToReadable();
 
-		calc = new HandCalculation(aiCards);
-		helper = calc.Help();
+		calc = new HandCalculation(aiCards, cards);
+
+		helper = calc.newHelp();
 		advice = calc.advice();
 		pwrBar = calc.calcPwrBarLvl();
 		toHighlight = calc.toHighlight();
@@ -60,9 +64,12 @@ public class Hand {
 	
 	/**
 	 * Recalculates advice and which cards to highlight. Required when adding and removing cards.
+	 * @param allKnownCards
 	 */
-	public void reCalc() {
-		this.calc = new HandCalculation(aiCards);
+	public void reCalc(ArrayList<Card> allKnownCards) {
+//		this.calc = new HandCalculation(aiCards);
+		calc.updateAllKnownCards(allKnownCards); //TODO funkar inte
+		calc.createNewCorrectHandCalc();
 
 		this.advice = calc.advice();
 		this.toHighlight = calc.toHighlight();
