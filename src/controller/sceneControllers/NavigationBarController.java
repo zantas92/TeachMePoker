@@ -1,5 +1,6 @@
 package controller.sceneControllers;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import controller.SceneController;
 import controller.Sound;
 import javafx.event.Event;
@@ -68,10 +69,12 @@ public class NavigationBarController {
     public void soundButtonClicked(MouseEvent mouseEvent) {
         if (ivSound.getImage().equals(soundOn)) {
             ivSound.setImage(soundOff);
+            Sound.toggleMute();
         } else {
             ivSound.setImage(soundOn);
+            Sound.toggleMute();
         }
-        Sound.toggleMute();
+
     }
 
     //TODO: Implement a method for volume control and GUI to allow the change of volume (possible to have separate

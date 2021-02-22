@@ -65,16 +65,16 @@ public class SPController extends Thread {
     this.numberOfAi = noOfAi;
     setNames();
     numberOfPlayers = noOfAi + 1;
-    bigBlind = (int) (potSize / numberOfPlayers * 0.02); // Calculates bigBlind
+    bigBlind = (int) (potSize * 0.02); // Calculates bigBlind
     if (bigBlind < 2) {
       bigBlind = 2;
     }
     currentMaxBet = bigBlind;
     this.smallBlind = bigBlind / 2;
-    gameController.setPlayerPot((potSize / numberOfPlayers));
+    gameController.setPlayerPot((potSize));
     // create aiPlayers
     for (int i = 0; i < noOfAi; i++) {
-      aiPlayers.add(new Ai(potSize / (numberOfPlayers), name.remove(0)));
+      aiPlayers.add(new Ai(potSize, name.remove(0)));
     }
     gameController.setAiPlayers(aiPlayers, false, 69);
     potSplits = new int[numberOfPlayers][1];
