@@ -41,7 +41,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Slider>
-            <Slider fx:id="potSlider" blockIncrement="0.0" majorTickUnit="800.0" max="10000.0" min="200.0" minorTickCount="0" onDragDetected="#potSliderChange" showTickLabels="true" value="1000.0">
+            <Slider fx:id="potSlider" blockIncrement="0.0" majorTickUnit="500.0" max="5000.0" min="1000.0" minorTickCount="0" onDragDetected="#potSliderChange" showTickLabels="true" value="5000.0">
                <tooltip>
                   <Tooltip text="Kolla" />
                </tooltip>
@@ -129,7 +129,7 @@
          <font>
             <Font name="Tw Cen MT" size="14.0" />
          </font></Label>
-      <Label fx:id="lblPotInfo" layoutX="964.0" layoutY="384.0" prefHeight="36.0" prefWidth="293.0" text="Välj hur mycket pengar du och dina motspelare ska dela på som startsumma" textFill="WHITE" visible="false" wrapText="true">
+      <Label fx:id="lblPotInfo" layoutX="964.0" layoutY="384.0" prefHeight="36.0" prefWidth="293.0" text="Välj den summa pengar som varje spelare börjar med" textFill="WHITE" visible="false" wrapText="true">
          <font>
             <Font name="Tw Cen MT" size="14.0" />
          </font></Label>
