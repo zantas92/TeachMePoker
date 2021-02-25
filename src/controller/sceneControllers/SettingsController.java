@@ -191,7 +191,7 @@ public class SettingsController {
 			pForm.getDialogStage().close();
 
 			SceneController.switchScene(Scenes.Game);
-			ConfirmBox.display("Snart börjar spelet", "Dags at spela poker! Glömmer du reglerna så hittar du" +
+			ConfirmBox.display("Snart börjar spelet", "Dags att spela poker! Glömmer du reglerna så hittar du" +
 					" dem högst upp i menyn.\n\nNu kör vi!");
 			spController.startGame(aiValue, potValue, name);
 			Sound.stopMusic();

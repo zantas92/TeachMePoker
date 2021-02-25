@@ -58,7 +58,7 @@ public class SPController extends Thread {
    * @param playerName The players' name.
    */
   public void startGame(int noOfAi, int potSize, String playerName) {
-
+    gameController.setUsername(playerName);
     this.fixedNumberOfAIs = noOfAi;
     gameController.disableButtons();
     this.potSize = potSize;
@@ -136,6 +136,7 @@ public class SPController extends Thread {
     name.add("Rolf");
     Collections.shuffle(name);
   }
+
 
 
   /**
@@ -225,35 +226,42 @@ public class SPController extends Thread {
       gameController.roundStatus(playTurn);
       // set dealer, smallblind and bigBlind.
       if (playTurn == 0) {
+        gameController.addLogMessage("Första satsningsrundan (pre flop):");
         int playerNr = numberOfPlayers - 1;
         if (playerNr != 1) {
           try {
             if (dealer != playerNr) {
               Thread.sleep(1000);
               gameController.aiAction(dealer, "Dealer");
+              gameController.addLogMessage(aiPlayers.get(dealer).getName() + " är givaren");
             }
             if (smallBlindPlayer != playerNr) {
               Thread.sleep(1000);
               gameController.aiAction(smallBlindPlayer, "SmallBlind");
+              gameController.addLogMessage(aiPlayers.get(smallBlindPlayer).getName() + " har liten mörk: " + smallBlind);
             }
             if (bigBlindPlayer != playerNr) {
               Thread.sleep(1000);
               gameController.aiAction(bigBlindPlayer, "BigBlind");
+              gameController.addLogMessage(aiPlayers.get(bigBlindPlayer).getName() + " har stor mörk: "+ bigBlind);
             }
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
         }
       } else if (playTurn == 1) {
+        gameController.addLogMessage("Andra satsningsrundan (flop):");
         allKnownCards.add(flop[0]);
         allKnownCards.add(flop[1]);
         allKnownCards.add(flop[2]);
         gameController.setFlopTurnRiver(flop);
 
       } else if (playTurn == 2) {
+        gameController.addLogMessage("Fjärde gatan (turn):");
         allKnownCards.add(turn);
         gameController.setFlopTurnRiver(turnCards);
       } else if (playTurn == 3) {
+        gameController.addLogMessage("Femte gatan (river):");
         allKnownCards.add(river);
         gameController.setFlopTurnRiver(riverCards);
       }
@@ -267,6 +275,7 @@ public class SPController extends Thread {
               gameController.setPlayerPot(currentPotSize);
               winner = gameController.getUsername();
               gameController.setWinnerLabel(winner, 99);
+              gameController.addLogMessage(winner + " vann potten på " + currentPotSize + " kronor!");
               winnerDeclared = true;
               break;
             }
@@ -286,6 +295,7 @@ public class SPController extends Thread {
                 aiPlayers.get(currentPlayer).updateWinner(currentPotSize);
                 winner = aiPlayers.get(currentPlayer).getName();
                 gameController.setWinnerLabel(winner, 98);
+                gameController.addLogMessage(winner + " vann potten på " + currentPotSize + " kronor!");
                 winnerDeclared = true;
                 break;
               }
@@ -335,6 +345,7 @@ public class SPController extends Thread {
     // If an AI player has run out of money, they have lost.
     for (Ai ai : aiPlayers) {
       if (ai.aiPot() < bigBlind && !ai.getDecision().contains("lost")) {
+        gameController.addLogMessage(ai.getName() + " förlorade...");
         ai.setDecision("lost");
         ai.updateWinner(-ai.aiPot());
         gameController.setUIAiStatus(aiPlayers.indexOf(ai), "inactive");
