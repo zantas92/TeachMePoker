@@ -337,8 +337,6 @@ public class GameController {
         playerMadeDecision = true;
         updatePlayerValues("Check");
         Sound.playSound("check");
-
-
     }
 
 
@@ -353,7 +351,6 @@ public class GameController {
         playerMadeDecision = true;
         updatePlayerValues("Fold");
         Sound.playSound("fold");
-        addLogMessage(userName.getText() + " la sig.");
     }
 
 
@@ -376,7 +373,6 @@ public class GameController {
         playerMadeDecision = true;
         Sound.playSound("chipSingle");
         updatePlayerValues("Call, §" + Integer.toString(alreadyPaid));
-        addLogMessage(userName.getText() + " synade med " + alreadyPaid + " kronor.");
     }
 
 
@@ -412,7 +408,6 @@ public class GameController {
         try {
             if (playerPot == 0) { // Checks if the player has gone all in.
                 updatePlayerValues("All-In, §" + raisedBet);
-                addLogMessage(userName.getText() + " går all-in med " + raisedBet + " kronor!");
                 this.decision = "allin," + (raisedBet) + "," + alreadyPaid;
                 this.alreadyPaid += raisedBet;
                 slider.setDisable(true);
@@ -422,7 +417,6 @@ public class GameController {
 
             } else {
                 updatePlayerValues("Raise, §" + raisedBet);
-                addLogMessage(userName.getText() + " höjde med " + raisedBet + " kronor.");
                 this.alreadyPaid += raisedBet;
 
                 /*
@@ -624,7 +618,6 @@ public class GameController {
         isReady = true;
         checkHand();
         handHelp();
-        logBook();
     }
 
 
@@ -863,18 +856,14 @@ public class GameController {
     }
 
     //Cornelia: logg-test
-    public void logBook() {
-        logText = new Text("Spelet har börjat!\n");
-        logText.setFont(Font.font("Tw Cen MT", FontWeight.SEMI_BOLD, 16));
-        logTextFlow.getChildren().add(logText);
-        logScrollPane.setContent(logTextFlow);
-    }
+
 
     public void addLogMessage(String logMessage) {
         Platform.runLater(() -> {
             Text newLogText = new Text(logMessage + "\n");
             newLogText.setFont(Font.font("Tw Cen MT", FontWeight.SEMI_BOLD, 16));
             logTextFlow.getChildren().add(newLogText);
+            logScrollPane.setVvalue(1.0);
         });
     }
 
