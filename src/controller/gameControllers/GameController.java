@@ -1,5 +1,7 @@
 package controller.gameControllers;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class GameController {
     @FXML
     private Label lbAllIn;
     @FXML
-    private Pane powerBarArea;
+    private Pane handStrengthImgArea;
     @FXML
     private ImageView cardOne;
     @FXML
@@ -179,7 +181,7 @@ public class GameController {
     private int tablePotValue = 2000;
     private int playerPot = 0;
     private int alreadyPaid = 0;
-    private ImageView imgPowerBar = new ImageView();
+    private ImageView handStrengthImgView = new ImageView();
     private SPController spController;
     private boolean playerMadeDecision = false;
     private boolean isReady = false;
@@ -800,54 +802,36 @@ public class GameController {
      */
     public void handHelp() {
 
-        String powerBarWeakHand = "resources/images/weakHand.png";
-        String powerBarMediumWeakHand = "resources/images/mediumWeakHand.png";
-        String powerBarMediumStrongHand = "resources/images/mediumStrongHand.png";
-        String powerBarStrongHand = "resources/images/StrongHand.png";
 
         Platform.runLater(() -> {
 
             String helpText = hand.theHelp();
-            helpLabel.setText("Du har: \n" + helpText);
+            helpLabel.setText("Du har: " + helpText);
             String adviceText = hand.theAdvice();
             adviceLabel.setText("Råd: \n" + adviceText);
-
             powerBarValue = hand.toPowerBar();
+            try {
+                Image handStrengthImg;
 
-            if (powerBarValue == 1) {
-                powerBarArea.getChildren().remove(imgPowerBar);
-                image = new Image(Paths.get(powerBarWeakHand).toUri().toString(), 120, 166, true, true);
-                imgPowerBar = new ImageView(image);
-                powerBarArea.getChildren().add(imgPowerBar);
-                imgPowerBar.setX(15);
-                imgPowerBar.setY(0);
+                if (powerBarValue == 1) {
+                    handStrengthImg = new Image(new FileInputStream("resources/images/weakHand.png"));
+                } else if (powerBarValue == 2) {
+                    handStrengthImg = new Image(new FileInputStream("resources/images/mediumWeakHand.png"));
+                } else if (powerBarValue == 3) {
+                    handStrengthImg = new Image(new FileInputStream("resources/images/mediumStrongHand.png"));
+                } else if (powerBarValue == 4) {
+                    handStrengthImg = new Image(new FileInputStream("resources/images/strongHand.png"));
+                } else {
+                    handStrengthImg = new Image(new FileInputStream("resources/images/weakHand.png"));
+                }
 
-            } else if (powerBarValue == 2) {
-                powerBarArea.getChildren().remove(imgPowerBar);
-                image =
-                        new Image(Paths.get(powerBarMediumWeakHand).toUri().toString(), 120, 166, true, true);
-                imgPowerBar = new ImageView(image);
-                powerBarArea.getChildren().add(imgPowerBar);
-                imgPowerBar.setX(15);
-                imgPowerBar.setY(0);
-
-            } else if (powerBarValue == 3) {
-                powerBarArea.getChildren().remove(imgPowerBar);
-                image =
-                        new Image(Paths.get(powerBarMediumStrongHand).toUri().toString(), 120, 166, true, true);
-                imgPowerBar = new ImageView(image);
-                powerBarArea.getChildren().add(imgPowerBar);
-                imgPowerBar.setX(15);
-                imgPowerBar.setY(0);
-
-            } else if (powerBarValue == 4) {
-                powerBarArea.getChildren().remove(imgPowerBar);
-                image = new Image(Paths.get(powerBarStrongHand).toUri().toString(), 120, 166, true, true);
-                imgPowerBar = new ImageView(image);
-                powerBarArea.getChildren().add(imgPowerBar);
-                imgPowerBar.setX(15);
-                imgPowerBar.setY(0);
-
+                handStrengthImgArea.getChildren().remove(handStrengthImgView);
+                handStrengthImgView = new ImageView(handStrengthImg);
+                handStrengthImgView.setFitHeight(handStrengthImgArea.getHeight());
+                handStrengthImgView.setFitWidth(handStrengthImgArea.getWidth());
+                handStrengthImgArea.getChildren().add(handStrengthImgView);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
             this.handStrength = hand.getHandStrenght();
 
@@ -856,8 +840,6 @@ public class GameController {
     }
 
     //Cornelia: logg-test
-
-
     public void addLogMessage(String logMessage) {
         Platform.runLater(() -> {
             Text newLogText = new Text(logMessage + "\n");
@@ -866,7 +848,6 @@ public class GameController {
             logScrollPane.setVvalue(1.0);
         });
     }
-
 
     /**
      * Returns the players decision.

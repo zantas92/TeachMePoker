@@ -60,7 +60,7 @@
 					<content>
 						<AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="180.0">
 							<children>
-								<Label fx:id="helpLabel" layoutX="40.0" layoutY="139.0" prefHeight="37.0" prefWidth="302.0" rotate="90.0" text="">
+								<Label fx:id="helpLabel" layoutX="51.0" layoutY="200.0" prefHeight="37.0" prefWidth="280.0" rotate="90.0" text="">
 																		<font>
 										<Font name="Tw Cen MT" size="22.0" fx:id="x9" />
 									</font>
@@ -72,16 +72,12 @@
 									</font>
 								
 								</Label>
-								<Label id="adviseLabel" fx:id="adviceLabel" layoutX="-50.0" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="117.0" prefWidth="318.0" rotate="90.0" text="" wrapText="true">
+								<Label id="adviseLabel" fx:id="adviceLabel" alignment="TOP_LEFT" layoutX="-115.0" layoutY="125.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="400.0" rotate="90.0" text="" wrapText="true">
 									<font>
 										<Font name="Tw Cen MT" size="15.0" />
 									</font>
 								</Label>
-								<Pane id="powerBar" fx:id="powerBarArea" layoutX="53.0" layoutY="259.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="108.0" rotate="90.0">
-									<opaqueInsets>
-										<Insets />
-									</opaqueInsets>
-								</Pane>
+                        <Pane id="handStrengthImgArea" fx:id="handStrengthImgArea" layoutX="162.0" layoutY="18.0" prefHeight="35.0" prefWidth="60.0" rotate="90.0" />
 							</children>
 						</AnchorPane>
 					</content>
