@@ -648,7 +648,7 @@ public class SPController extends Thread {
       // do nothing. Handled elsewhere.
     } else if (playerDecision.contains("call")) {
 
-      gameController.addLogMessage(gameController.getUsername() + " synade");
+      gameController.addLogMessage(gameController.getUsername() + " synade med " + Integer.parseInt(split[1]));
       currentPotSize += currentMaxBet;
     } else if (playerDecision.contains("check")) {
       gameController.addLogMessage(gameController.getUsername() + " passar insats");
