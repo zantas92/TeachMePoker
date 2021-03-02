@@ -13,7 +13,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import model.Scenes;
-import testClasses.JUnitTest;
 import view.ConfirmBox;
 import view.Tutorial;
 
