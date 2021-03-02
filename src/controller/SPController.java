@@ -637,19 +637,24 @@ public class SPController extends Thread {
     playerDecision.toLowerCase();
 
     String[] split;
+    split = playerDecision.split(",");
     if (playerDecision.contains("raise")) {
-      split = playerDecision.split(",");
+
       currentMaxBet = Integer.parseInt(split[1]);
       currentPotSize += Integer.parseInt(split[1]);
+      gameController.addLogMessage(gameController.getUsername() + " höjde med " + Integer.parseInt(split[1]));
     } else if (playerDecision.contains("fold")) {
+      gameController.addLogMessage(gameController.getUsername() + " la sig");
       // do nothing. Handled elsewhere.
     } else if (playerDecision.contains("call")) {
-      split = playerDecision.split(",");
+
+      gameController.addLogMessage(gameController.getUsername() + " synade med " + Integer.parseInt(split[1]));
       currentPotSize += currentMaxBet;
     } else if (playerDecision.contains("check")) {
+      gameController.addLogMessage(gameController.getUsername() + " passar insats");
       // do nothing. Handled elsewhere.
     } else if (playerDecision.contains("allin")) {
-      split = playerDecision.split(",");
+      gameController.addLogMessage(gameController.getUsername() + " går all-in med " + Integer.parseInt(split[1]));
       int allin = Integer.parseInt(split[1]);
       // if all-in
       if (currentMaxBet < allin) {
@@ -732,35 +737,33 @@ public class SPController extends Thread {
     Ai ai = aiPlayers.get(currentPlayer);
 
     String aiDecision = ai.getDecision();
-    String[] split;
+    String[] split = aiDecision.split(",");
     if (aiDecision.contains("raise")) {
-      split = aiDecision.split(",");
       currentMaxBet = Integer.parseInt(split[1]);
       currentPotSize += Integer.parseInt(split[1]);
       gameController.aiAction(currentPlayer, aiDecision);
-
+      gameController.addLogMessage(ai.getName() + " höjde med " +Integer.parseInt(split[1]));
     } else if (aiDecision.contains("fold")) {
       gameController.aiAction(currentPlayer, aiDecision);
+      gameController.addLogMessage(ai.getName() + " la sig");
     } else if (aiDecision.contains("call")) {
-
-      split = aiDecision.split(",");
       if (Integer.parseInt(split[1]) > currentMaxBet) {
         currentMaxBet = Integer.parseInt(split[1]);
-        currentPotSize += Integer.parseInt(split[1]);
-      } else {
-        currentPotSize += Integer.parseInt(split[1]);
       }
+      currentPotSize += Integer.parseInt(split[1]);
 
       if (Integer.parseInt(split[1]) <= 0) {
         gameController.aiAction(currentPlayer, "check");
+        gameController.addLogMessage(ai.getName() + " passar insats");
       } else {
         gameController.aiAction(currentPlayer, split[0]);
+        gameController.addLogMessage(ai.getName() + " synar med " + Integer.parseInt(split[1]));
       }
 
     } else if (aiDecision.contains("check")) {
       gameController.aiAction(currentPlayer, aiDecision);
+      gameController.addLogMessage(ai.getName() + " passar insats");
     } else if (aiDecision.contains("all-in")) {
-      split = aiDecision.split(",");
       int allin;
       if (playTurn > 0) {
         if (!doAllInCheck) {
@@ -774,11 +777,8 @@ public class SPController extends Thread {
       }
       if (currentMaxBet < allin) {
 
-
         currentMaxBet = allin;
-
         currentPotSize += allin;
-
         doAllInCheck = true;
         potSplits[psCounter][0] = allin;
         // Check if the player is viable for the same subpot
@@ -794,7 +794,6 @@ public class SPController extends Thread {
         psCounter++;
       } else {
 
-
         currentPotSize += allin;
         doAllInCheck = true;
         potSplits[psCounter][0] = allin;
@@ -810,6 +809,7 @@ public class SPController extends Thread {
         psCounter++;
       }
       gameController.aiAction(currentPlayer, aiDecision);
+      gameController.addLogMessage(ai.getName() + " går all-in med " + Integer.parseInt(split[1]));
     }
   }
 
