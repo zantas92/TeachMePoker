@@ -176,7 +176,7 @@ public class GameController {
     private Image image;
     private ArrayList<Card> cards = new ArrayList<Card>();
     private Hand hand;
-    private int tablePotValue = 2000;
+    private int tablePotValue;
     private int playerPot = 0;
     private int alreadyPaid = 0;
     private ImageView imgPowerBar = new ImageView();
@@ -241,11 +241,16 @@ public class GameController {
      * @param position Position on the screen (0-4).
      */
     public void setShowUIAiBar(int position) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                collectionOfLabelsAi[position][0].setVisible(true);
+                collectionOfLabelsAi[position][1].setVisible(true);
+                collectionOfLabelsAi[position][2].setVisible(true);
+                collectionOfCardsAi[position].setVisible(true);
+            }
+        });
 
-        collectionOfLabelsAi[position][0].setVisible(true);
-        collectionOfLabelsAi[position][1].setVisible(true);
-        collectionOfLabelsAi[position][2].setVisible(true);
-        collectionOfCardsAi[position].setVisible(true);
     }
 
 
@@ -884,16 +889,12 @@ public class GameController {
      *
      * @return The players decision
      */
-    public String askForPlayerDecision() {
-
+    public String askForPlayerDecision() throws InterruptedException{
+        System.out.println("Current Thread" + Thread.currentThread().getName());
         handleButtons();
         playerMadeDecision = false;
         while (!playerMadeDecision) {
-            try {
-                SPController.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                spController.sleep(100);
         }
         return decision;
     }
@@ -1002,11 +1003,14 @@ public class GameController {
      * @param AI an AI player
      */
     public void removeAiPlayer(int AI) {
-
-        Platform.runLater(() -> {
-            collectionOfLabelsAi[AI][0].setVisible(false);
-            collectionOfLabelsAi[AI][1].setVisible(false);
-            collectionOfLabelsAi[AI][2].setVisible(false);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                collectionOfLabelsAi[AI][0].setVisible(false);
+                collectionOfLabelsAi[AI][1].setVisible(false);
+                collectionOfLabelsAi[AI][2].setVisible(false);
+                collectionOfCardsAi[AI].setVisible(false);
+            }
         });
     }
 
@@ -1019,7 +1023,9 @@ public class GameController {
      * @param deadAIIndex
      */
     public void setAiPlayers(LinkedList<Ai> aiPlayers, boolean notFirstRound, int deadAIIndex) {
-
+        for(int i = 0; i<5; i++) {
+            removeAiPlayer(i);
+        }
         this.aiPlayers = aiPlayers;
         int totalAI = spController.getFixedNumberOfAIs();
         if (!notFirstRound) {

@@ -139,6 +139,11 @@ public class SettingsController {
 		aiSliderChange();
 		if (!tfNameInput.getText().isEmpty()) {
 			name = tfNameInput.getText();
+			if(spController != null) {
+				if(spController.isAlive()) {
+					spController.interrupt();
+				}
+			}
 			spController = new SPController();
 			sceneController.setSPController(spController);
 

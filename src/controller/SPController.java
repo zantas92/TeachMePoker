@@ -45,9 +45,10 @@ public class SPController extends Thread {
   private int fixedNumberOfAIs;
   private int[][] potSplits;
   private boolean doAllInCheck;
+  private volatile boolean active = false;
   private int psCounter = 0;
-
   private ArrayList<Card> allKnownCards = new ArrayList<>();
+
 
 
   /**
@@ -80,6 +81,7 @@ public class SPController extends Thread {
     potSplits = new int[numberOfPlayers][1];
 
     try {
+      setActive(true);
       setupPhase();
     } catch (InstantiationException | IllegalAccessException e) {
       e.printStackTrace();
@@ -216,167 +218,181 @@ public class SPController extends Thread {
    */
   public void run() {
 
-    gameController.hideAllIn();
-    gameController.activeSlider();
-    String winner = "";
+    while(active) {
+      gameController.hideAllIn();
+      gameController.activeSlider();
+      String winner = "";
 
-    Card[] turnCards = {flop[0], flop[1], flop[2], turn};
-    Card[] riverCards = {flop[0], flop[1], flop[2], turn, river};
-    while (playTurn < 4) {
-      gameController.roundStatus(playTurn);
-      // set dealer, smallblind and bigBlind.
-      if (playTurn == 0) {
-        gameController.addLogMessage("Första satsningsrundan (pre flop):");
-        int playerNr = numberOfPlayers - 1;
-        if (playerNr != 1) {
-          try {
-            if (dealer != playerNr) {
-              Thread.sleep(1000);
-              gameController.aiAction(dealer, "Dealer");
-              gameController.addLogMessage(aiPlayers.get(dealer).getName() + " är givaren");
-            }
-            if (smallBlindPlayer != playerNr) {
-              Thread.sleep(1000);
-              gameController.aiAction(smallBlindPlayer, "SmallBlind");
-              gameController.addLogMessage(aiPlayers.get(smallBlindPlayer).getName() + " har liten mörk: " + smallBlind);
-            }
-            if (bigBlindPlayer != playerNr) {
-              Thread.sleep(1000);
-              gameController.aiAction(bigBlindPlayer, "BigBlind");
-              gameController.addLogMessage(aiPlayers.get(bigBlindPlayer).getName() + " har stor mörk: "+ bigBlind);
-            }
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-        }
-      } else if (playTurn == 1) {
-        gameController.addLogMessage("Andra satsningsrundan (flop):");
-        allKnownCards.add(flop[0]);
-        allKnownCards.add(flop[1]);
-        allKnownCards.add(flop[2]);
-        gameController.setFlopTurnRiver(flop);
-
-      } else if (playTurn == 2) {
-        gameController.addLogMessage("Fjärde gatan (turn):");
-        allKnownCards.add(turn);
-        gameController.setFlopTurnRiver(turnCards);
-      } else if (playTurn == 3) {
-        gameController.addLogMessage("Femte gatan (river):");
-        allKnownCards.add(river);
-        gameController.setFlopTurnRiver(riverCards);
-      }
-
-      while (!allCalledOrFolded) {
-        // Check if its the players turn.
-        if (currentPlayer == numberOfPlayers - 1) {
-          if (!gameController.getPlayerDecision().equals("fold")
-              && !gameController.getPlayerDecision().contains("allin")) {
-            if (!(checkLivePlayers() > 1)) {
-              gameController.setPlayerPot(currentPotSize);
-              winner = gameController.getUsername();
-              gameController.setWinnerLabel(winner, 99);
-              gameController.addLogMessage(winner + " vann potten på " + currentPotSize + " kronor!");
-              winnerDeclared = true;
-              break;
-            }
+      Card[] turnCards = {flop[0], flop[1], flop[2], turn};
+      Card[] riverCards = {flop[0], flop[1], flop[2], turn, river};
+      while (playTurn < 4) {
+        gameController.roundStatus(playTurn);
+        // set dealer, smallblind and bigBlind.
+        if (playTurn == 0) {
+          gameController.addLogMessage("Första satsningsrundan (pre flop):");
+          int playerNr = numberOfPlayers - 1;
+          if (playerNr != 1) {
             try {
-              Thread.sleep(1000);
+              if (dealer != playerNr) {
+                Thread.sleep(1000);
+                gameController.aiAction(dealer, "Dealer");
+                gameController.addLogMessage(aiPlayers.get(dealer).getName() + " är givaren");
+              }
+              if (smallBlindPlayer != playerNr) {
+                Thread.sleep(1000);
+                gameController.aiAction(smallBlindPlayer, "SmallBlind");
+                gameController.addLogMessage(aiPlayers.get(smallBlindPlayer).getName() + " har liten mörk: " + smallBlind);
+              }
+              if (bigBlindPlayer != playerNr) {
+                Thread.sleep(1000);
+                gameController.aiAction(bigBlindPlayer, "BigBlind");
+                gameController.addLogMessage(aiPlayers.get(bigBlindPlayer).getName() + " har stor mörk: " + bigBlind);
+              }
             } catch (InterruptedException e) {
               e.printStackTrace();
             }
-            askForPlayerDecision(currentMaxBet);
           }
-          // if it isn't the players turn, let the AI do their turn
-        } else {
-          if (!aiPlayers.get(currentPlayer).getDecision().contains("lost")) {
-            if (!aiPlayers.get(currentPlayer).getDecision().contains("fold")
-                && !aiPlayers.get(currentPlayer).getDecision().contains("all-in")) {
+        } else if (playTurn == 1) {
+          gameController.addLogMessage("Andra satsningsrundan (flop):");
+          allKnownCards.add(flop[0]);
+          allKnownCards.add(flop[1]);
+          allKnownCards.add(flop[2]);
+          gameController.setFlopTurnRiver(flop);
+
+        } else if (playTurn == 2) {
+          gameController.addLogMessage("Fjärde gatan (turn):");
+          allKnownCards.add(turn);
+          gameController.setFlopTurnRiver(turnCards);
+        } else if (playTurn == 3) {
+          gameController.addLogMessage("Femte gatan (river):");
+          allKnownCards.add(river);
+          gameController.setFlopTurnRiver(riverCards);
+        }
+
+        while (!allCalledOrFolded) {
+          // Check if its the players turn.
+          if (currentPlayer == numberOfPlayers - 1) {
+            if (!gameController.getPlayerDecision().equals("fold")
+                    && !gameController.getPlayerDecision().contains("allin")) {
               if (!(checkLivePlayers() > 1)) {
-                aiPlayers.get(currentPlayer).updateWinner(currentPotSize);
-                winner = aiPlayers.get(currentPlayer).getName();
-                gameController.setWinnerLabel(winner, 98);
+                gameController.setPlayerPot(currentPotSize);
+                winner = gameController.getUsername();
+                gameController.setWinnerLabel(winner, 99);
                 gameController.addLogMessage(winner + " vann potten på " + currentPotSize + " kronor!");
                 winnerDeclared = true;
                 break;
               }
-
-              askForAiDecision();
               try {
                 Thread.sleep(1000);
               } catch (InterruptedException e) {
                 e.printStackTrace();
               }
+              try {
+                askForPlayerDecision(currentMaxBet);
+              } catch (InterruptedException e) {
+                setActive(false);
+                break;
+              }
+            }
+            // if it isn't the players turn, let the AI do their turn
+          } else {
+            if (!aiPlayers.get(currentPlayer).getDecision().contains("lost")) {
+              if (!aiPlayers.get(currentPlayer).getDecision().contains("fold")
+                      && !aiPlayers.get(currentPlayer).getDecision().contains("all-in")) {
+                if (!(checkLivePlayers() > 1)) {
+                  aiPlayers.get(currentPlayer).updateWinner(currentPotSize);
+                  winner = aiPlayers.get(currentPlayer).getName();
+                  gameController.setWinnerLabel(winner, 98);
+                  gameController.addLogMessage(winner + " vann potten på " + currentPotSize + " kronor!");
+                  winnerDeclared = true;
+                  break;
+                }
+
+                askForAiDecision();
+
+                try {
+                  Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+              }
             }
           }
+
+
+          // After each player(AI or real), update the pot(s)
+          gameController.updatePots(potSplits, currentPotSize);
+          // Prevent AI from thinking it's a new turn.
+          if (currentPlayer != numberOfPlayers - 1) {
+            aiPlayers.get(currentPlayer).setSameTurn(true);
+          }
+          // move on to the next player
+          currentPlayer = (currentPlayer + 1) % numberOfPlayers;
+          // check if everyone has checked, called or folded.
+          allCallorFold();
         }
-
-
-        // After each player(AI or real), update the pot(s)
-        gameController.updatePots(potSplits, currentPotSize);
-        // Prevent AI from thinking it's a new turn.
-        if (currentPlayer != numberOfPlayers - 1) {
-          aiPlayers.get(currentPlayer).setSameTurn(true);
+        // Next turn
+        if (active) {
+          playTurn++;
+          allCalledOrFolded = false;
+          // if a player Hasn't folded, gone all in or lost, reset their decision
+          for (Ai ai : aiPlayers) {
+            if (!ai.getDecision().contains("fold") && !ai.getDecision().contains("lost")
+                    && !ai.getDecision().contains("all-in")) {
+              ai.setDecision("");
+              ai.setSameTurn(false);
+            }
+          }
+          // if winner was declared earlier, break the loop here and start a new round
+          if (winnerDeclared) {
+            break;
+          }
         }
-        // move on to the next player
-        currentPlayer = (currentPlayer + 1) % numberOfPlayers;
-        // check if everyone has checked, called or folded.
-        allCallorFold();
-      }
-      // Next turn
-      playTurn++;
-      allCalledOrFolded = false;
-      // if a player Hasn't folded, gone all in or lost, reset their decision
-      for (Ai ai : aiPlayers) {
-        if (!ai.getDecision().contains("fold") && !ai.getDecision().contains("lost")
-            && !ai.getDecision().contains("all-in")) {
-          ai.setDecision("");
-          ai.setSameTurn(false);
+        // If the game goes to the final round and no one has won yet, check the winner.
+        if (active) {
+          if (playTurn >= 4 && !winnerDeclared) {
+            checkWinner();
+          }
+          // If an AI player has run out of money, they have lost.
+          for (Ai ai : aiPlayers) {
+            if (ai.aiPot() < bigBlind && !ai.getDecision().contains("lost")) {
+              gameController.addLogMessage(ai.getName() + " förlorade...");
+              ai.setDecision("lost");
+              ai.updateWinner(-ai.aiPot());
+              gameController.setUIAiStatus(aiPlayers.indexOf(ai), "inactive");
+            }
+            System.out.println(ai.getName() + " : " + ai.getDecision() + (ai.aiPot() < bigBlind));
+
+          }
+
+          // Reset values
+          winnerDeclared = false;
+          playTurn = 0;
+          blindCounter++;
+          allKnownCards = new ArrayList<>();
+          // update the blinds
+          if (blindCounter >= 15) {
+            bigBlind += (int) (potSize / numberOfPlayers * 0.02);
+            currentMaxBet = bigBlind;
+            smallBlind = bigBlind / 2;
+            blindCounter = 0;
+          }
+          // Set new dealer
+          dealer = (dealer + 1) % numberOfPlayers;
+
+          try {
+            setupPhase();
+          } catch (InstantiationException e) {
+            e.printStackTrace();
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          }
+        }
+        if(!active) {
+          break;
         }
       }
-      // if winner was declared earlier, break the loop here and start a new round
-      if (winnerDeclared) {
-        break;
-      }
     }
-    // If the game goes to the final round and no one has won yet, check the winner.
-    if (playTurn >= 4 && !winnerDeclared) {
-      checkWinner();
-    }
-    // If an AI player has run out of money, they have lost.
-    for (Ai ai : aiPlayers) {
-      if (ai.aiPot() < bigBlind && !ai.getDecision().contains("lost")) {
-        gameController.addLogMessage(ai.getName() + " förlorade...");
-        ai.setDecision("lost");
-        ai.updateWinner(-ai.aiPot());
-        gameController.setUIAiStatus(aiPlayers.indexOf(ai), "inactive");
-      }
-      System.out.println(ai.getName() + " : " + ai.getDecision() + (ai.aiPot() < bigBlind));
-
-    }
-
-    // Reset values
-    winnerDeclared = false;
-    playTurn = 0;
-    blindCounter++;
-    allKnownCards = new ArrayList<>();
-    // update the blinds
-    if (blindCounter >= 15) {
-      bigBlind += (int) (potSize / numberOfPlayers * 0.02);
-      currentMaxBet = bigBlind;
-      smallBlind = bigBlind / 2;
-      blindCounter = 0;
-    }
-    // Set new dealer
-    dealer = (dealer + 1) % numberOfPlayers;
-
-    try {
-      setupPhase();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    }
-
   }
 
 
@@ -617,7 +633,7 @@ public class SPController extends Thread {
    * 
    * @param currentMaxBet2 the currentmaxbet.
    */
-  private void askForPlayerDecision(int currentMaxBet2) {
+  private void askForPlayerDecision(int currentMaxBet2) throws InterruptedException {
 
     if (!gameController.getPlayerDecision().contains("allin")) {
       gameController.askForPlayerDecision();
@@ -955,5 +971,8 @@ public class SPController extends Thread {
     return this.fixedNumberOfAIs;
   }
 
+  public void setActive(boolean active) {
+    this.active=active;
+  }
 }
 
