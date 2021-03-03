@@ -1055,61 +1055,65 @@ public class GameController {
      * @param decision  Check, call, fold, raise or lost
      */
     public void aiAction(int currentAI, String decision) {
+        try {
+            int setAINr = spController.getFixedNumberOfAIs();
 
-        int setAINr = spController.getFixedNumberOfAIs();
+            int setOfPlayers = 0; // Is used for choosing the correct set of
+            // positioning (see
+            // aiPositions[][])
 
-        int setOfPlayers = 0; // Is used for choosing the correct set of
-        // positioning (see
-        // aiPositions[][])
-
-        // Decides (based on chosen AI-players) which position to place the AI
-        // at
-        if (setAINr == 1) {
-            setOfPlayers = 0;
-        } else if (setAINr == 3) {
-            setOfPlayers = 1;
-        } else if (setAINr == 5) {
-            setOfPlayers = 2;
-        }
-
-        int currentAIPosition = aiPositions[setOfPlayers][currentAI];
-
-        if (prevPlayerActive != -1) { // If there does exists a previous active
-            // AI-player
-            setUIAiStatus(prevPlayerActive, "idle"); // Resets the previous
-            // player's image from
-            // glowing(active) to
-            // non-glowning(idle)
-        }
-
-        Ai ai = aiPlayers.get(currentAI);
-
-        if (decision.contains("fold") || decision.contains("lost") || decision.isEmpty()) {
-            setUIAiStatus(currentAIPosition, "inactive");
-        } else {
-            setUIAiStatus(currentAIPosition, "active");
-            this.prevPlayerActive = currentAIPosition;
-        }
-
-        Platform.runLater(new Runnable() {
-
-            private volatile boolean shutdown;
-
-
-            @Override
-            public void run() {
-
-                /**
-                 * Sets name, pot and action for the AI's (UI)
-                 */
-                while (!shutdown) {
-                    setLabelUIAiBarName(currentAIPosition, ai.getName());
-                    setLabelUIAiBarPot(currentAIPosition, Integer.toString(ai.aiPot()));
-                    setLabelUIAiBarAction(currentAIPosition, getFormattedDecision(decision));
-                    shutdown = true;
-                }
+            // Decides (based on chosen AI-players) which position to place the AI
+            // at
+            if (setAINr == 1) {
+                setOfPlayers = 0;
+            } else if (setAINr == 3) {
+                setOfPlayers = 1;
+            } else if (setAINr == 5) {
+                setOfPlayers = 2;
             }
-        });
+
+            int currentAIPosition = aiPositions[setOfPlayers][currentAI];
+
+            if (prevPlayerActive != -1) { // If there does exists a previous active
+                // AI-player
+                setUIAiStatus(prevPlayerActive, "idle"); // Resets the previous
+                // player's image from
+                // glowing(active) to
+                // non-glowning(idle)
+            }
+
+            Ai ai = aiPlayers.get(currentAI);
+
+            if (decision.contains("fold") || decision.contains("lost") || decision.isEmpty()) {
+                setUIAiStatus(currentAIPosition, "inactive");
+            } else {
+                setUIAiStatus(currentAIPosition, "active");
+                this.prevPlayerActive = currentAIPosition;
+            }
+
+            Platform.runLater(new Runnable() {
+
+                private volatile boolean shutdown;
+
+
+                @Override
+                public void run() {
+
+                    /**
+                     * Sets name, pot and action for the AI's (UI)
+                     */
+                    while (!shutdown) {
+                        setLabelUIAiBarName(currentAIPosition, ai.getName());
+                        setLabelUIAiBarPot(currentAIPosition, Integer.toString(ai.aiPot()));
+                        setLabelUIAiBarAction(currentAIPosition, getFormattedDecision(decision));
+                        shutdown = true;
+                    }
+                }
+            });
+        }
+        catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error while processing. Probably cause: Shutdown of current game");
+        }
     }
 
 

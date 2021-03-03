@@ -217,8 +217,6 @@ public class SPController extends Thread {
    * Method that runs the gameround itself
    */
   public void run() {
-
-    while(active) {
       gameController.hideAllIn();
       gameController.activeSlider();
       String winner = "";
@@ -313,7 +311,7 @@ public class SPController extends Thread {
                 try {
                   Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                  e.printStackTrace();
+                  setActive(false);
                 }
               }
             }
@@ -343,14 +341,14 @@ public class SPController extends Thread {
               ai.setSameTurn(false);
             }
           }
+        }
           // if winner was declared earlier, break the loop here and start a new round
           if (winnerDeclared) {
             break;
           }
         }
         // If the game goes to the final round and no one has won yet, check the winner.
-        if (active) {
-          if (playTurn >= 4 && !winnerDeclared) {
+          if (playTurn >= 4 && !winnerDeclared && active) {
             checkWinner();
           }
           // If an AI player has run out of money, they have lost.
@@ -387,12 +385,6 @@ public class SPController extends Thread {
           } catch (IllegalAccessException e) {
             e.printStackTrace();
           }
-        }
-        if(!active) {
-          break;
-        }
-      }
-    }
   }
 
 
