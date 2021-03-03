@@ -916,13 +916,20 @@ public class GameController {
     /**
      * Sets the new player-pot.
      *
-     * @param newValue The value to add/remove from the player-pot.
+     * @param playerPot The value to add/remove from the player-pot.
      */
-    public void setPlayerPot(int newValue) {
-
-        this.playerPot += newValue;
+    public void setPlayerPot(int playerPot) {
+        this.playerPot = playerPot;
     }
 
+    /**
+     * Resets player pot
+     *
+     * @param playerPot The value to reset the playerPot to.
+     */
+    public void resetPlayerPot(int playerPot) {
+        this.playerPot = playerPot;
+    }
 
     /**
      * Shows/hides player-buttons based on allowed actions.
