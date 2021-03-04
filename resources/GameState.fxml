@@ -111,7 +111,7 @@
 				<Label fx:id="raiseLabel" layoutX="918.0" layoutY="612.0" textFill="#e8dbdb" />
 				<ImageView id="aiBarWithCards.png" fx:id="imgPlayerOneCards" fitHeight="148.0" fitWidth="114.0" layoutX="170.0" layoutY="290.0" visible="false">
 					<image>
-						<Image preserveRatio="true" smooth="true" url="@/images/aiBarWithCards.png" />
+						<Image url="@/images/aiBarWithCards.png" />
 					</image>
 				</ImageView>
 				<ImageView id="aiBarWithCards.png" fx:id="imgPlayerFiveCards" fitHeight="148.0" fitWidth="114.0" layoutX="1095.0" layoutY="290.0" visible="false">

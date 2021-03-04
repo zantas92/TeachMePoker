@@ -13,7 +13,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import model.Scenes;
-import testClasses.JUnitTest;
 import view.ConfirmBox;
 import view.Tutorial;
 
@@ -140,6 +139,11 @@ public class SettingsController {
 		aiSliderChange();
 		if (!tfNameInput.getText().isEmpty()) {
 			name = tfNameInput.getText();
+			if(spController != null) {
+				if(spController.isAlive()) {
+					spController.interrupt();
+				}
+			}
 			spController = new SPController();
 			sceneController.setSPController(spController);
 

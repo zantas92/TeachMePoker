@@ -178,7 +178,7 @@ public class GameController {
     private Image image;
     private ArrayList<Card> cards = new ArrayList<Card>();
     private Hand hand;
-    private int tablePotValue = 2000;
+    private int tablePotValue;
     private int playerPot = 0;
     private int alreadyPaid = 0;
     private ImageView handStrengthImgView = new ImageView();
@@ -243,11 +243,16 @@ public class GameController {
      * @param position Position on the screen (0-4).
      */
     public void setShowUIAiBar(int position) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                collectionOfLabelsAi[position][0].setVisible(true);
+                collectionOfLabelsAi[position][1].setVisible(true);
+                collectionOfLabelsAi[position][2].setVisible(true);
+                collectionOfCardsAi[position].setVisible(true);
+            }
+        });
 
-        collectionOfLabelsAi[position][0].setVisible(true);
-        collectionOfLabelsAi[position][1].setVisible(true);
-        collectionOfLabelsAi[position][2].setVisible(true);
-        collectionOfCardsAi[position].setVisible(true);
     }
 
 
@@ -865,16 +870,12 @@ public class GameController {
      *
      * @return The players decision
      */
-    public String askForPlayerDecision() {
-
+    public String askForPlayerDecision() throws InterruptedException{
+        System.out.println("Current Thread" + Thread.currentThread().getName());
         handleButtons();
         playerMadeDecision = false;
         while (!playerMadeDecision) {
-            try {
-                SPController.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                spController.sleep(100);
         }
         return decision;
     }
@@ -896,13 +897,20 @@ public class GameController {
     /**
      * Sets the new player-pot.
      *
-     * @param newValue The value to add/remove from the player-pot.
+     * @param playerPot The value to add/remove from the player-pot.
      */
-    public void setPlayerPot(int newValue) {
-
-        this.playerPot += newValue;
+    public void setPlayerPot(int playerPot) {
+        this.playerPot = playerPot;
     }
 
+    /**
+     * Resets player pot
+     *
+     * @param playerPot The value to reset the playerPot to.
+     */
+    public void resetPlayerPot(int playerPot) {
+        this.playerPot = playerPot;
+    }
 
     /**
      * Shows/hides player-buttons based on allowed actions.
@@ -983,11 +991,14 @@ public class GameController {
      * @param AI an AI player
      */
     public void removeAiPlayer(int AI) {
-
-        Platform.runLater(() -> {
-            collectionOfLabelsAi[AI][0].setVisible(false);
-            collectionOfLabelsAi[AI][1].setVisible(false);
-            collectionOfLabelsAi[AI][2].setVisible(false);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                collectionOfLabelsAi[AI][0].setVisible(false);
+                collectionOfLabelsAi[AI][1].setVisible(false);
+                collectionOfLabelsAi[AI][2].setVisible(false);
+                collectionOfCardsAi[AI].setVisible(false);
+            }
         });
     }
 
@@ -1000,7 +1011,9 @@ public class GameController {
      * @param deadAIIndex
      */
     public void setAiPlayers(LinkedList<Ai> aiPlayers, boolean notFirstRound, int deadAIIndex) {
-
+        for(int i = 0; i<5; i++) {
+            removeAiPlayer(i);
+        }
         this.aiPlayers = aiPlayers;
         int totalAI = spController.getFixedNumberOfAIs();
         if (!notFirstRound) {
@@ -1030,61 +1043,65 @@ public class GameController {
      * @param decision  Check, call, fold, raise or lost
      */
     public void aiAction(int currentAI, String decision) {
+        try {
+            int setAINr = spController.getFixedNumberOfAIs();
 
-        int setAINr = spController.getFixedNumberOfAIs();
+            int setOfPlayers = 0; // Is used for choosing the correct set of
+            // positioning (see
+            // aiPositions[][])
 
-        int setOfPlayers = 0; // Is used for choosing the correct set of
-        // positioning (see
-        // aiPositions[][])
-
-        // Decides (based on chosen AI-players) which position to place the AI
-        // at
-        if (setAINr == 1) {
-            setOfPlayers = 0;
-        } else if (setAINr == 3) {
-            setOfPlayers = 1;
-        } else if (setAINr == 5) {
-            setOfPlayers = 2;
-        }
-
-        int currentAIPosition = aiPositions[setOfPlayers][currentAI];
-
-        if (prevPlayerActive != -1) { // If there does exists a previous active
-            // AI-player
-            setUIAiStatus(prevPlayerActive, "idle"); // Resets the previous
-            // player's image from
-            // glowing(active) to
-            // non-glowning(idle)
-        }
-
-        Ai ai = aiPlayers.get(currentAI);
-
-        if (decision.contains("fold") || decision.contains("lost") || decision.isEmpty()) {
-            setUIAiStatus(currentAIPosition, "inactive");
-        } else {
-            setUIAiStatus(currentAIPosition, "active");
-            this.prevPlayerActive = currentAIPosition;
-        }
-
-        Platform.runLater(new Runnable() {
-
-            private volatile boolean shutdown;
-
-
-            @Override
-            public void run() {
-
-                /**
-                 * Sets name, pot and action for the AI's (UI)
-                 */
-                while (!shutdown) {
-                    setLabelUIAiBarName(currentAIPosition, ai.getName());
-                    setLabelUIAiBarPot(currentAIPosition, Integer.toString(ai.aiPot()));
-                    setLabelUIAiBarAction(currentAIPosition, getFormattedDecision(decision));
-                    shutdown = true;
-                }
+            // Decides (based on chosen AI-players) which position to place the AI
+            // at
+            if (setAINr == 1) {
+                setOfPlayers = 0;
+            } else if (setAINr == 3) {
+                setOfPlayers = 1;
+            } else if (setAINr == 5) {
+                setOfPlayers = 2;
             }
-        });
+
+            int currentAIPosition = aiPositions[setOfPlayers][currentAI];
+
+            if (prevPlayerActive != -1) { // If there does exists a previous active
+                // AI-player
+                setUIAiStatus(prevPlayerActive, "idle"); // Resets the previous
+                // player's image from
+                // glowing(active) to
+                // non-glowning(idle)
+            }
+
+            Ai ai = aiPlayers.get(currentAI);
+
+            if (decision.contains("fold") || decision.contains("lost") || decision.isEmpty()) {
+                setUIAiStatus(currentAIPosition, "inactive");
+            } else {
+                setUIAiStatus(currentAIPosition, "active");
+                this.prevPlayerActive = currentAIPosition;
+            }
+
+            Platform.runLater(new Runnable() {
+
+                private volatile boolean shutdown;
+
+
+                @Override
+                public void run() {
+
+                    /**
+                     * Sets name, pot and action for the AI's (UI)
+                     */
+                    while (!shutdown) {
+                        setLabelUIAiBarName(currentAIPosition, ai.getName());
+                        setLabelUIAiBarPot(currentAIPosition, Integer.toString(ai.aiPot()));
+                        setLabelUIAiBarAction(currentAIPosition, getFormattedDecision(decision));
+                        shutdown = true;
+                    }
+                }
+            });
+        }
+        catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error while processing. Probably cause: Shutdown of current game");
+        }
     }
 
 

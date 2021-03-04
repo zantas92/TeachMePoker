@@ -64,6 +64,7 @@ public class CorrectHandCalc {
                         bestHand = "FULL HOUSE";
                         return bestHand;
                     }
+                    else bestHand = "THREE OF A KIND";
                 }
             }
             else if (checkFlush()) {
