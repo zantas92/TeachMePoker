@@ -404,7 +404,6 @@ public void setPlayTurn(int playTurn){
  * @return Returns what the ai-players is going to do this turn.
  */
   public String decision() {
-
     return toDo;
   }
 }

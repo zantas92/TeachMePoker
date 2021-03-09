@@ -970,8 +970,16 @@ public class SPController extends Thread {
      * @param resetDecision the new decision
      */
     public void playerReset(String resetDecision) {
-        String decision = resetDecision;
+        decision = resetDecision;
         alreadyPaid = 0;
+    }
+    /**
+     * Method which returns the potValue for the table.
+     *
+     * @return tablePotValue the potValue for the table.
+     */
+    public double getPotValue() {
+        return tablePot;
     }
 }
 

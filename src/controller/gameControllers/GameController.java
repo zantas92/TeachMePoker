@@ -191,6 +191,10 @@ public class GameController {
     private int prevPlayerActive;
     private boolean isReady = false;
     private int AllInViability = 0;
+    private int playerPot;
+    private int alreadyPaid;
+    private String decision;
+    private String winnerHand;
 
     /**
      * Method for initializing FXML
@@ -496,25 +500,6 @@ public class GameController {
             raiseLabel.setText(String.valueOf((int) slider.getValue()));
 
         });
-    }
-
-
-    /**
-     * Creates a new ruleController.
-     *
-     * @throws IOException
-     */
-
-
-    /**
-     * Method which returns the potValue for the table.
-     *
-     * @return tablePotValue the potValue for the table.
-     */
-    public double getPotValue() {
-        //TODO: flytta till SP-controller
-
-        return tablePot;
     }
 
 
