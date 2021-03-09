@@ -184,6 +184,7 @@ public class SPController extends Thread {
             personalCards.add(deck.getCard());
             playerHand = new Hand(personalCards);
             gameController.setStartingHand(playerHand);
+            gameController.setCommunityCards(communityCards.getCommunityCards());
 
             //Generate community cards for each round
             flopCards = new ArrayList<>();

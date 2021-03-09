@@ -32,7 +32,7 @@ public class Hand {
     public Hand(ArrayList<Card> personalCards) {
         this.personalCards = personalCards;
         hand = new ArrayList<>();
-        communityCards = new CommunityCards();
+        // från SP-controller communityCards = new CommunityCards();
         hand.addAll(personalCards);
         handValueAdvice = new HandValueAdvice(this);
     }
