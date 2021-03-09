@@ -379,7 +379,7 @@ public class GameController {
         this.decision = "call," + Integer.toString(alreadyPaid);
         playerMadeDecision = true;
         Sound.playSound("chipSingle");
-        updatePlayerValues("Call, §" + Integer.toString(alreadyPaid));
+        updatePlayerValues("Call, $" + Integer.toString(alreadyPaid));
     }
 
 
@@ -410,11 +410,11 @@ public class GameController {
         playerMadeDecision = true;
         Sound.playSound("chipMulti");
 
-        updatePlayerValues("Raise, §" + raisedBet);
+        updatePlayerValues("Raise, $" + raisedBet);
 
         try {
             if (playerPot == 0) { // Checks if the player has gone all in.
-                updatePlayerValues("All-In, §" + raisedBet);
+                updatePlayerValues("All-In, $" + raisedBet);
                 this.decision = "allin," + (raisedBet) + "," + alreadyPaid;
                 this.alreadyPaid += raisedBet;
                 slider.setDisable(true);
@@ -423,7 +423,7 @@ public class GameController {
 
 
             } else {
-                updatePlayerValues("Raise, §" + raisedBet);
+                updatePlayerValues("Raise, $" + raisedBet);
                 this.alreadyPaid += raisedBet;
 
                 /*
@@ -444,7 +444,7 @@ public class GameController {
      */
     public void updatePlayerValues(String action) {
         //TODO: låt SP-conttroller skicka med summan som ska visas
-        lbPotValue.setText("§" + (playerPot));
+        lbPotValue.setText("$" + (playerPot));
         lbPlayerAction.setText(action);
         setSliderValues();
     }
@@ -850,42 +850,6 @@ public class GameController {
         }
     }
 
-
-    /**
-     * Method which resets the players cards, amount paid and decision.
-     *
-     * @param resetDecision the new decision
-     */
-    public void playerReset(String resetDecision) {
-        //TODO: flytta till SP-controller
-
-        decision = resetDecision;
-        alreadyPaid = 0;
-    }
-
-
-    /**
-     * Sets the new player-pot.
-     *
-     * @param playerPot The value to add/remove from the player-pot.
-     */
-    public void setPlayerPot(int playerPot) {
-        //TODO: flytta till SP-controller
-
-        this.playerPot = playerPot;
-    }
-
-    /**
-     * Resets player pot
-     *
-     * @param playerPot The value to reset the playerPot to.
-     */
-    public void resetPlayerPot(int playerPot) {
-        //TODO: flytta till SP-controller
-
-        this.playerPot = playerPot;
-    }
-
     /**
      * Shows/hides player-buttons based on allowed actions.
      */
@@ -1055,15 +1019,15 @@ public class GameController {
             actionText = "Call";
         } else if (decision.contains("raise")) {
             String[] decisionAi = decision.split(",");
-            actionText = "Raise, §" + decisionAi[1];
+            actionText = "Raise, $" + decisionAi[1];
         } else if (decision.contains("all-in")) {
             actionText = "All-In";
         } else if (decision.contains("Dealer")) {
             actionText = "Dealer";
         } else if (decision.contains("SmallBlind")) {
-            actionText = "Small Blind, §" + spController.getSmallBlind();
+            actionText = "Small Blind, $" + spController.getSmallBlind();
         } else if (decision.contains("BigBlind")) {
-            actionText = "Big Blind, §" + spController.getBigBlind();
+            actionText = "Big Blind, $" + spController.getBigBlind();
         }
 
         return actionText;
@@ -1254,7 +1218,7 @@ public class GameController {
                     "Sub-Pot Five: ", "Sub-Pot Six: "};
             for (int i = 0; i < collectionOfPots.length; i++) {
                 if (potSplits[i][0] > 0) {
-                    collectionOfPots[i].setText(potOrder[i] + "§" + potSplits[i][0]);
+                    collectionOfPots[i].setText(potOrder[i] + "$" + potSplits[i][0]);
                     collectionOfPots[i].setVisible(true);
                     collectionOfPots[i].setLayoutX(10);
                     collectionOfPots[i].setLayoutY(30 * (i + 1) + 70);
@@ -1262,7 +1226,7 @@ public class GameController {
                     collectionOfPots[i].setVisible(false);
                 }
             }
-            mainPot.setText("Table Pot: §" + tablePot);
+            mainPot.setText("Table Pot: $" + tablePot);
             mainPot.setLayoutX(295.0);
             mainPot.setLayoutY(290.0);
             mainPot.setVisible(true);

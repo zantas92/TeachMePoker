@@ -197,7 +197,7 @@ public class SPController extends Thread {
             tablePot = 0;
             potSplits = new int[numberOfPlayers][1];
 
-            gameController.playerReset("");
+            playerReset("");
             /*
              * Reset the AI players unless they've lost
              */
@@ -931,7 +931,6 @@ public class SPController extends Thread {
      * @return Current big blind
      */
     public int getBigBlind() {
-
         return bigBlind;
     }
 
@@ -942,12 +941,36 @@ public class SPController extends Thread {
      * @return Number of chosen AIs as int
      */
     public int getFixedNumberOfAIs() {
-
         return this.fixedNumberOfAIs;
     }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    /**
+     * Sets the new player-pot.
+     *
+     * @param playerPot The value to add/remove from the player-pot.
+     */
+    public void setPlayerPot(int playerPot) {
+        this.playerPot = playerPot;
+    }
+    /**
+     * Resets player pot
+     *
+     * @param playerPot The value to reset the playerPot to.
+     */
+    public void resetPlayerPot(int playerPot) {
+        this.playerPot = playerPot;
+    }
+    /**
+     * Method which resets the players cards, amount paid and decision.
+     *
+     * @param resetDecision the new decision
+     */
+    public void playerReset(String resetDecision) {
+        String decision = resetDecision;
+        alreadyPaid = 0;
     }
 }
 
