@@ -1,6 +1,9 @@
 package controller.aiControllers;
 
 import java.util.ArrayList;
+
+import controller.gameControllers.ActionType;
+import controller.gameControllers.Hand;
 import model.Card;
 
 
@@ -13,22 +16,17 @@ import model.Card;
  */
 
 public class Ai {
+  private int index;
+  private int position;
 
-  private AiDecide aiDecide;
-  private boolean isSmallBlind = false;
-  private boolean isBigBlind = false;
-  private boolean sameTurn = false;
+  private int aiPot;
   private int paidThisTurn = 0;
   private String name;
-  private String whatToDo = "";
-  private ArrayList<String> aiCards = new ArrayList<String>(); // Lista som lägger till alla kort
-                                                               // som kommer in och som skickas till
-                                                               // turns.
-  private int aiPot; // AIPOT - KOMMER IN VIA CONTROLLER.
-  private int highCard;
-  private int handStrength;
-  private int AllInViability = 99;
 
+  private int allInViability = 99;
+  private Hand aiHand;
+  private int[] handStrength;
+  private boolean madeItsMove;
 
   /**
    * sets the starting potsize and the ai's name.
@@ -36,143 +34,64 @@ public class Ai {
    * @param aiPot The potsize that the ai will start from.
    * @param name the Ai's name for the entire name.
    */
-  public Ai(int aiPot, String name) {
+  public Ai(int aiPot, String name, int index) {
     this.name = name;
     this.aiPot = aiPot;
+    this.index = index;
   }
 
 
   /**
    * Receives the Ai-players two first cards.
    * 
-   * @param card1 The first card the ai-player gets.
-   * @param card2 The second card the ai-player gets.
+   * @param personalCard is the cards in AI-players hand
+   *
    */
-  public void setStartingHand(Card card1, Card card2) { // set starting hand
+  public void setStartingHand(ArrayList<Card> personalCard) {
+    aiHand = new Hand(personalCard);
+  }
 
-    aiCards.clear(); // resets the arraylist.
-    char A = card1.getCardSuit().charAt(0);
-    char B = card2.getCardSuit().charAt(0);
-    String firstCard = card1.getCardValue() + "," + String.valueOf(A);
-    String secondCard = card2.getCardValue() + "," + String.valueOf(B);
-    this.highCard = card1.getCardValue();
-    if (card2.getCardValue() > highCard) {
-      highCard = card2.getCardValue();
+  public void resetAi(){
+    allInViability = 99;
+    handStrength = new int[2];
+    madeItsMove = false;
+    paidThisTurn = 0;
+  }
+
+  public void newMove(ActionType actionType, int minimumBet){
+    aiHand.newDecision();
+    switch (actionType){
+      case DEALER:
+        aiHand.setActionType(actionType);
+        madeItsMove = true;
+        break;
+      case SMALL_BLIND:
+      case BIG_BLIND:
+        aiHand.setActionType(actionType);
+        aiHand.setMinimumBet(minimumBet);
+        aiPot -= minimumBet;
+        paidThisTurn += minimumBet;
+        madeItsMove = true;
+        break;
+      case TO_BE_DECIDED:
+        int toBet =aiHand.calculateAiDecision(actionType,minimumBet);
+        aiPot -= toBet;
+        paidThisTurn += toBet;
+        //TODO: kalla på metod som berättar för SP-controller vad draget är och summa på drag + pott
+        break;
     }
-    aiCards.add(firstCard);
-    aiCards.add(secondCard);
+  }
+
+  public Hand getHand(){
+    return aiHand;
   }
 
 
   /**
-   * Makes decision for the starting hand
+   * Makes decision for AI
    * 
-   * @param currentBet How much the Ai-player as to bet to be able to play this turn.
+   * @param minimumBet How much the Ai-player as to bet to be able to play this turn.
    */
-  public void makeDecision(int currentBet) {
-
-    aiDecide = new AiDecide(aiCards, aiPot, currentBet, paidThisTurn, sameTurn);
-    whatToDo = aiDecide.decision();
-    System.out.println("PaidBeforeThisTurn: " + this.paidThisTurn);
-    this.paidThisTurn += aiPot - aiDecide.updateAiPot();
-    handStrength = aiDecide.gethandStrength();
-    aiPot = aiDecide.updateAiPot();
-    System.out.println("PaidThisTurn(including what was paid before): " + this.paidThisTurn);
-    System.out.println("Decision: " + whatToDo);
-    System.out.println("AiPot after round: " + aiPot);
-  }
-
-
-  /**
-   * Makes the decision for the flop
-   * 
-   * @param currentBet How much the Ai-player as to bet to be able to play this turn.
-   * @param flop The three cards that will be set on the table that all players can use.
-   */
-  public void makeDecision(int currentBet, Card[] flop) {
-
-    if (!sameTurn) {
-      for (Card card : flop) {
-        char A = card.getCardSuit().charAt(0);
-        aiCards.add(card.getCardValue() + "," + String.valueOf(A));
-      }
-    }
-
-    aiDecide = new AiDecide(aiCards, aiPot, currentBet, paidThisTurn, sameTurn);
-    whatToDo = aiDecide.decision();
-    System.out.println("PaidBeforeThisTurn: " + this.paidThisTurn);
-    this.paidThisTurn += aiPot - aiDecide.updateAiPot();
-    aiPot = aiDecide.updateAiPot();
-    handStrength = aiDecide.gethandStrength();
-    System.out.println("PaidThisTurn(including what was paid before): " + this.paidThisTurn);
-    System.out.println("Decision: " + whatToDo);
-    System.out.println("AiPot after round: " + aiPot);
-  }
-
-
-  /**
-   * Makes the decision for the last two turns of the game. If there are less than 7 cards its the
-   * second last turn and it calls for a calculation on that turn. And if its 7 cards its the last
-   * turn and it does a calculation for that turn instead. So never two calculations och one call.
-   * 
-   * @param currentBet How much the Ai-player as to bet to be able to play this turn.
-   * @param turn Another cards gets added to the table that all the players can use.
-   */
-  public void makeDecision(int currentBet, Card turn) {
-
-    if (!sameTurn) {
-      char A = turn.getCardSuit().charAt(0);
-      aiCards.add(turn.getCardValue() + "," + String.valueOf(A));
-    }
-    // IF its not the last turn, this gets called.
-    if (aiCards.size() < 7) {
-      aiDecide = new AiDecide(aiCards, aiPot, currentBet, paidThisTurn, sameTurn);
-      whatToDo = aiDecide.decision();
-      System.out.println("PaidBeforeThisTurn: " + this.paidThisTurn);
-      this.paidThisTurn += aiPot - aiDecide.updateAiPot();
-      aiPot = aiDecide.updateAiPot();
-      handStrength = aiDecide.gethandStrength();
-      System.out.println("PaidThisTurn(including what was paid before): " + this.paidThisTurn);
-      System.out.println("Decision: " + whatToDo);
-      System.out.println("AiPot after round: " + aiPot);
-      // IF its the last turn this is called.
-    } else if (aiCards.size() == 7) {
-      aiDecide = new AiDecide(aiCards, aiPot, currentBet, paidThisTurn, sameTurn);
-      whatToDo = aiDecide.decision();
-      System.out.println("PaidBeforeThisTurn: " + this.paidThisTurn);
-      this.paidThisTurn += aiPot - aiDecide.updateAiPot();
-      aiPot = aiDecide.updateAiPot();
-      handStrength = aiDecide.gethandStrength();
-      System.out.println("PaidThisTurn(including what was paid before): " + this.paidThisTurn);
-      System.out.println("Decision: " + whatToDo);
-      System.out.println("AiPot after round: " + aiPot);
-    }
-
-  }
-
-
-  /**
-   * Makes sure that AI-players decision from last this isnt making a problem for current turns
-   * decision.
-   * 
-   * @param reset whatToDo.
-   */
-  public void setDecision(String reset) {
-
-    whatToDo = reset;
-  }
-
-
-  /**
-   * Returns the Decision the ai-player made this turn.
-   * 
-   * @return returns the Decision the ai-player made.
-   */
-  public String getDecision() {
-
-    return whatToDo;
-  }
-
 
   /**
    * Returns how much the ai-player has left in his pot.
@@ -180,22 +99,16 @@ public class Ai {
    * @return returns the ai potSize
    */
   public int aiPot() {
-
     return aiPot;
   }
 
-
-  /**
-   * If ai-player wins the round this gets updated with the winning amount added to its current
-   * potsize.
-   * 
-   * @param aiPot the Ai's pot Size if it would win.
-   */
-  public void updateWinner(int aiPot) {
-
-    this.aiPot += aiPot;
+  public void withDrawFromPot(int amount){
+    aiPot = aiPot - amount;
   }
 
+  public void addToPot(int amount){
+    aiPot = aiPot + amount;
+  }
 
   /**
    * Returns the name of the AI-player
@@ -203,66 +116,35 @@ public class Ai {
    * @return returns the name of the ai-player
    */
   public String getName() {
-
     return name;
   }
 
-
-  /**
-   * Checks if ai-player is bigblind or not and if it is. It takes a amount from the ai's pot
-   * 
-   * @param bigBlind The amount the bigBlind is at, at this turn.
-   * @param b if the ai-player is or isnt the bigBlind.
-   */
-  public void setBigBlind(int bigBlind, boolean b) {
-
-    this.isBigBlind = b;
-    if (bigBlind > 0) {
-      System.out.println("AI " + name + " paid the big Blind (" + bigBlind + ")");
+  public String getActionString(){
+    int amount = aiHand.getAiDecision().getAmountToBet();
+    String actionType = aiHand.getAiDecision().getAiActionType().getActionName();
+    String actionString;
+    if (amount > 0) {
+      actionString =
+              actionType +
+                      " " +
+                      amount +
+                      "SEK";
+    } else {
+      actionString = actionType;
     }
-
-    aiPot -= bigBlind;
-    this.paidThisTurn += bigBlind;
+    return actionString;
   }
 
-
-  /**
-   * Checks if ai-player is smallBlind or not and if it is. it takes a amount from the ai's pot
-   * 
-   * @param smallBlind The amount the smallBlind is at, at this turn.
-   * @param b if the ai-player is or isnt the smallBlind.
-   */
-  public void setSmallBlind(int smallBlind, boolean b) {
-
-    this.isSmallBlind = b;
-    if (smallBlind > 0) {
-      System.out.println("AI " + name + " paid the small Blind (" + smallBlind + ")");
-    }
-
-    aiPot -= smallBlind;
-    this.paidThisTurn += smallBlind;
+  public void setPosition(int position){
+    this.position = position;
   }
 
-
-  /**
-   * Returns if the the ai-player is or isnt the smallBlind
-   * 
-   * @return Returns if the the ai-player is or isnt the smallBlind
-   */
-  public boolean getIsSmallBlind() {
-
-    return isSmallBlind;
+  public int getPosition() {
+    return position;
   }
 
-
-  /**
-   * Returns if the the ai-player is or isnt the bigBlind
-   * 
-   * @return Returns if the the ai-player is or isnt the bigBlind
-   */
-  public boolean getIsBigBlind() {
-
-    return isBigBlind;
+  public int getIndex() {
+    return index;
   }
 
 
@@ -283,19 +165,7 @@ public class Ai {
    * @param paidThisTurn Sets how much the ai-player as already paid this turn
    */
   public void setPaidThisTurn(int paidThisTurn) {
-
     this.paidThisTurn = paidThisTurn;
-  }
-
-
-  /**
-   * sets if its the same turn or not.
-   * 
-   * @param sameTurn sets if it is the same turn or not.
-   */
-  public void setSameTurn(boolean sameTurn) {
-
-    this.sameTurn = sameTurn;
   }
 
 
@@ -306,7 +176,7 @@ public class Ai {
    */
   public int getHighCard() {
 
-    return highCard;
+    return aiHand.getHighCardValue();
   }
 
 
@@ -315,9 +185,9 @@ public class Ai {
    * 
    * @return returns the handstrength of the ai-player
    */
-  public int handStrength() {
+  public int[] handStrength() {
 
-    return handStrength;
+    return aiHand.getHandStrength();
   }
 
 
@@ -328,7 +198,7 @@ public class Ai {
    */
   public int getAllInViability() {
 
-    return AllInViability;
+    return allInViability;
   }
 
 
@@ -339,12 +209,14 @@ public class Ai {
    */
   public void setAllInViability(int allInViability) {
 
-    if (allInViability < AllInViability) {
-      AllInViability = allInViability;
+    if (allInViability < this.allInViability) {
+      this.allInViability = allInViability;
     } else {
       System.out.println("AI was already viable");
     }
   }
+
+  //TODO: metod som återställer värden inför en ny runda (paid this turn, hand strength)
 
 }
 

@@ -29,17 +29,17 @@ public class WinnerBox {
 	/**
 	 * Creates a window containting messages of who won or lost. 
 	 * @param title String title of the window from the method that uses WinnerBox. 
-	 * @param message String message to display in the window from the method that uses ConfirmBox. 
-	 * @param nr Int to check which message should be displayed. 
-	 * @param handStrength String to print the handstrength the player or AI won with. 
+	 * @param winnerName String winnerName to display in the window from the method that uses ConfirmBox.
+	 * @param nr Int to check which winnerName should be displayed.
+	 * @param handValueName String to print the hand value which the player or AI won with.
 	 * @return answer Boolean that returns an answer.
 	 */
-	public boolean displayWinner(String title, String message, int nr, String handStrength) {
+	public boolean displayWinner(String title, String winnerName, int nr, String handValueName) {
 		
-		String aiWin = "Rundan vanns av " + message + " som hade " + handStrength;
-		String playerWin = "Grattis " + message + ", du vann den här rundan! Du vann med " + handStrength;
-		String playerWinAIFold = "Grattis " + message + ". " + handStrength;
-		String aiWinOthersFold = "Rundan vanns av " + message + " " + handStrength;
+		String aiWin = "Rundan vanns av " + winnerName + " som hade " + handValueName;
+		String playerWin = "Grattis " + winnerName + ", du vann den här rundan! Du vann med " + handValueName;
+		String playerWinAIFold = "Grattis " + winnerName + ". " + handValueName;
+		String aiWinOthersFold = "Rundan vanns av " + winnerName + " " + handValueName;
 		
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle(title);
@@ -64,7 +64,7 @@ public class WinnerBox {
 		messageText.setText(aiWinOthersFold);
 		}
 		else if (nr == 5){
-			messageText.setText(message);
+			messageText.setText(winnerName);
 		}
 		
 		btnOk.setOnMouseReleased(e -> {

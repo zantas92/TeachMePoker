@@ -88,7 +88,7 @@ public class TestAi {
 
     System.out.println("\n\n-Test FLOP-");
     ai.makeDecision(32, flop);
-    System.out.println(ai.getDecision());
+    System.out.println(ai.calculateDecision());
 //
 //    System.out.println("\n\n-Test TURN-");
 //    ai.makeDecision(32, cardTurn);

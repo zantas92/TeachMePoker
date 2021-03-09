@@ -1,116 +1,139 @@
 package controller.gameControllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
+
+import controller.aiControllers.Ai;
 import model.Card;
+import model.CommunityCards;
 
 /**
- * The hand-class that will guide and help the noob player.
- * 
- * @author Max Frennessen 17-05-25
- * @version 2.0 
+ * The hand-class that keep the cards of a player
+ * and the advice based on those cards
+ *
+ * @author Cornelia Sköld 21-03-05
+ * @version 1.0
  */
 public class Hand {
-	private HandCalculation calc;
-	private ArrayList<Card> cards;
-	private ArrayList<String> aiCards = new ArrayList<String>();
-	private ArrayList<String> toHighlight;
-	private String helper;
-	private String advice;
-	private int pwrBar;
-	private int handStrenght;
+    private final CommunityCards communityCards;
+    private final ArrayList<Card> personalCards;
+    private ArrayList<Card> hand;
+    private ArrayList<Card> cardsToHighLight;
+    private HandValueAdvice handValueAdvice;
+    private AiDecision aiDecision;
+    private int highCardValue;
+    private int highCardOutsideHandValue;
 
-	//Oscars:
-	private CorrectHandCalc corrCalc;
+    /**
+     * Constructor
+     *
+     * @param personalCards is the players two personal cards.
+     */
+    public Hand(ArrayList<Card> personalCards) {
+        this.personalCards = personalCards;
+        hand = new ArrayList<>();
+        communityCards = new CommunityCards();
+        hand.addAll(personalCards);
+        handValueAdvice = new HandValueAdvice(this);
+    }
 
-	/**
-	 * Constructor
-	 * @param cards gets card that are important for this turn.
-	 */
-	public Hand(ArrayList<Card> cards) {
-		this.cards = cards;
-		convertToReadable();
+    public ArrayList<Card> getPersonalCards() {
+        return personalCards;
+    }
 
-		calc = new HandCalculation(aiCards, cards);
+    /**
+     * Method used to access the community cards
+     *
+     * @return the community cards
+     */
+    public CommunityCards getCommunityCards() {
+        return communityCards;
+    }
 
-		helper = calc.newHelp();
-		advice = calc.advice();
-		pwrBar = calc.calcPwrBarLvl();
-		toHighlight = calc.toHighlight();
+    /**
+     * Method used to update the cards on the hand
+     * Used to make sure that the cards are "up to date"
+     */
+    public void updateHand() {
+        hand = new ArrayList<>();
+        hand.addAll(personalCards);
+        hand.addAll(communityCards.getCommunityCards());
+    }
 
-		System.out.println(" -NEW HAND- ");
-		System.out.println(aiCards);
-		System.out.println("Helper - " + helper);
-		System.out.println("");
-		System.out.println("Advice - " + advice);
-		System.out.println("");
-		System.out.println("pwrBar - " + pwrBar);
-		System.out.println("toHighlight - " + toHighlight);
-		System.out.println("");
+    /**
+     * Method used to get the best hand value in hand
+     *
+     * @return the hand value
+     */
+    public HandValue handValue() {
+        updateHand();
+        handValueAdvice = new HandValueAdvice(this);
+        return handValueAdvice.getHandValue();
+    }
 
-	}
-	
-	/**
-	 * Converts the cards into readable Strings.
-	 */
-	public void convertToReadable() {
+    /**
+     * Method used to get the advice based on the cards in hand
+     *
+     * @return the advice
+     */
+    public HandValueAdvice handValueAdvice() {
+        updateHand();
+        handValueAdvice = new HandValueAdvice(this);
+        return handValueAdvice;
+    }
 
-		for (int i = 0; i < cards.size(); i++) {
-			Card cardTemp = cards.get(i);
-			char A = cardTemp.getCardSuit().charAt(0);
-			String temp = cardTemp.getCardValue() + "," + (A);
-			aiCards.add(temp);
-		}
-	}
-	
-	/**
-	 * Recalculates advice and which cards to highlight. Required when adding and removing cards.
-	 * @param allKnownCards
-	 */
-	public void reCalc(ArrayList<Card> allKnownCards) {
-//		this.calc = new HandCalculation(aiCards);
-		calc.updateAllKnownCards(allKnownCards); //TODO funkar inte
-		calc.createNewCorrectHandCalc();
+    public AiDecision getAiDecision(){
+        return aiDecision;
+    }
 
-		this.advice = calc.advice();
-		this.toHighlight = calc.toHighlight();
-	}
-	/**
- 	* returns a number that will be used to set a image to visualize the users handStrength
- 	* @return a int that represents the users cardStregnth
- 	*/
-	public int toPowerBar() { 
-		return pwrBar;
-	}
+    public void newDecision(){
+        aiDecision = new AiDecision();
+    }
 
-	/**
- 	* returns the Text that will be shown to the user
- 	* @return a String of text to help the user
- 	*/
-	public String theHelp() {
-		return helper;
-	}
+    public void setActionType(ActionType actionType){
+        aiDecision.setAiActionType(actionType);
+    }
 
-	/**
- 	* returns the advice the program gives the user this turn.
- 	* @return returns the advice the program gives the user this turn.
- 	*/
-	public String theAdvice() {
-		return advice;
-	}
+    public void setMinimumBet(int minimumBet){
+        aiDecision.setAmountToBet(minimumBet);
+    }
 
-	/**
-	 * @return returns what is supposed to be highlighted.
-	 */
-	public ArrayList<String> getHighlightedCards() {
-		return toHighlight;
-	}
+    public int calculateAiDecision(ActionType actionType, int minimumBet) {
+        updateHand();
+        handValueAdvice = new HandValueAdvice(this);
+        aiDecision.setPlayTurn(communityCards.getRound());
+        aiDecision.setHandValueAdvice(handValueAdvice);
+        aiDecision.calculateDecision(actionType, minimumBet);
+        return aiDecision.getAmountToBet();
+    }
 
-	/**
- 	* returns the current handstrength
- 	* @return returns the current handstrength
- 	*/
-	public int getHandStrenght() {
-		handStrenght = calc.calcHandstrenght();
-		return handStrenght;
-	}
+    public ArrayList<Card> handArray() {
+        updateHand();
+        return hand;
+    }
+
+    public int[] getHandStrength() {
+        return handValueAdvice.getHandStrength();
+    }
+
+    public void setHighCards(int highCardValue, int highCardOutsideHandValue) {
+        this.highCardValue = highCardValue;
+        this.highCardOutsideHandValue = highCardOutsideHandValue;
+    }
+
+    public void setCardsToHighLight(ArrayList<Card> cardsToHighLight) {
+        this.cardsToHighLight = cardsToHighLight;
+    }
+
+    public int getHighCardValue() {
+        return highCardValue;
+    }
+
+    public int getHighCardOutsideHandValue() {
+        return highCardOutsideHandValue;
+    }
+
+    public ArrayList<Card> getHighlightedCards() {
+        return cardsToHighLight;
+    }
 }

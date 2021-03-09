@@ -1,5 +1,7 @@
 package controller.aiControllers;
 
+import controller.gameControllers.AiDecision;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +14,9 @@ import java.util.Random;
 public class AiDecide {
 
   private AiCalculation calculation;
+  private int playTurn;
+
+
   private int colorChance;
   private int straightChance;
   private int likelyhood = 0;
@@ -36,8 +41,20 @@ public class AiDecide {
  * @param alreadyPaid how much the ai-player has already paid.
  * @param sameTurn if it is or isnt the same turn.
  */
+
+public AiDecide(){
+
+
+}
+
+public void setPlayTurn(int playTurn){
+  this.playTurn = playTurn;
+}
+
   public AiDecide(ArrayList<String> aiCards, int aiPot, int toBet, int alreadyPaid, boolean sameTurn) {
-    this.aiPot = aiPot;
+    //TODO: hämta värden från ai, AI-äobjektet ska räkna ut nya potten med alreadyPaid, toBet och aiPot, så det är bara toBet som ska skickas med tillbaka till AI (genom aidecision) Playturn från aidecision
+
+  this.aiPot = aiPot;
     this.toBet = toBet;
     this.alreadyPaid = alreadyPaid;
     this.sameTurn = sameTurn;
