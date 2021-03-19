@@ -1,4 +1,4 @@
-package testClasses;
+package oldTests;
 import controller.gameControllers.CorrectHandCalc;
 import model.Card;
 import model.Suit;
