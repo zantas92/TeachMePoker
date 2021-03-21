@@ -25,9 +25,6 @@ class AiDecideTest {
         Card A = deck.getCard();
         Card B = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
 
@@ -56,9 +53,6 @@ class AiDecideTest {
         deck.shuffle();
         Card A = deck.getCard();
         Card B = deck.getCard();
-
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
@@ -92,13 +86,6 @@ class AiDecideTest {
         Card C = deck.getCard();
         Card D = deck.getCard();
         Card E = deck.getCard();
-
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
-
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
@@ -140,13 +127,6 @@ class AiDecideTest {
         Card D = deck.getCard();
         Card E = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
-
-
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
         String sC = C.getCardValue() + "," + String.valueOf(C);
@@ -187,13 +167,6 @@ class AiDecideTest {
         Card D = deck.getCard();
         Card E = deck.getCard();
         Card F = deck.getCard();
-
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
-        char cF = F.getCardSuit().charAt(0);
 
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
@@ -239,13 +212,6 @@ class AiDecideTest {
         Card E = deck.getCard();
         Card F = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
-        char cF = F.getCardSuit().charAt(0);
-
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
@@ -290,14 +256,6 @@ class AiDecideTest {
         Card E = deck.getCard();
         Card F = deck.getCard();
         Card G = deck.getCard();
-
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
-        char cF = F.getCardSuit().charAt(0);
-        char cG = G.getCardSuit().charAt(0);
 
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
@@ -346,15 +304,6 @@ class AiDecideTest {
         Card F = deck.getCard();
         Card G = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
-        char cF = F.getCardSuit().charAt(0);
-        char cG = G.getCardSuit().charAt(0);
-
-
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
         String sC = C.getCardValue() + "," + String.valueOf(C);
@@ -398,9 +347,6 @@ class AiDecideTest {
         Card C = deck.getCard();
         Card D = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
 
@@ -432,13 +378,6 @@ class AiDecideTest {
 
         Card C = deck.getCard();
         Card D = deck.getCard();
-
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-
-
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);

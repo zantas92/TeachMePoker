@@ -25,8 +25,6 @@ class AiCalculationTest {
         Card A = deck.getCard();
         Card B = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
@@ -54,12 +52,6 @@ class AiCalculationTest {
         Card C = deck.getCard();
         Card D = deck.getCard();
         Card E = deck.getCard();
-
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
@@ -89,11 +81,6 @@ class AiCalculationTest {
         Card C = deck.getCard();
         Card D = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
         String sC = C.getCardValue() + "," + String.valueOf(C);
@@ -121,12 +108,6 @@ class AiCalculationTest {
         Card D = deck.getCard();
         Card E = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
-        char cC = C.getCardSuit().charAt(0);
-        char cD = D.getCardSuit().charAt(0);
-        char cE = E.getCardSuit().charAt(0);
-
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);
         String sC = C.getCardValue() + "," + String.valueOf(C);
@@ -152,8 +133,6 @@ class AiCalculationTest {
         Card A = deck.getCard();
         Card B = deck.getCard();
 
-        char cA = A.getCardSuit().charAt(0);
-        char cB = B.getCardSuit().charAt(0);
 
         String sA = A.getCardValue() + "," + String.valueOf(A);
         String sB = B.getCardValue() + "," + String.valueOf(B);

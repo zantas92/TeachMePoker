@@ -12,7 +12,7 @@ class HandTest {
 
 
     @Test
-    void toPowerBar_WithValidAmountOfCards() { //With 7 cards
+    void toPowerBar() { //With 7 cards
         Deck deck = new Deck();
         deck.shuffle();
 
@@ -26,27 +26,7 @@ class HandTest {
     }
 
     @Test
-    void toPowerBar_WithInputAsNull() { //null
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(null).toPowerBar());
-        assertEquals("Cannot invoke \"java.util.ArrayList.size()\" because \"this.cards\" is null", exception.getMessage());
-    }
-
-    @Test
-    void toPowerBar_WithInvalidAmountOfCards() { //Less than 2 cards
-        Deck deck = new Deck();
-        deck.shuffle();
-
-        ArrayList<Card> cards = new ArrayList<Card>();
-        for(int i = 0; i < 1; i++) {
-            cards.add(deck.getCard());
-        }
-
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(cards).toPowerBar());
-        assertEquals("Index 1 out of bounds for length 1", exception.getMessage());
-    }
-
-    @Test
-    void theHelp_WithValidAmountOfCards() { //With 5 cards
+    void theHelp() { //With 5 cards
         Deck deck = new Deck();
         deck.shuffle();
 
@@ -67,28 +47,9 @@ class HandTest {
         assertTrue(bestHands.contains(hand.theHelp()));
     }
 
-    @Test
-    void theHelp_WithInputAsNull() { //null
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(null).theHelp());
-        assertEquals("Cannot invoke \"java.util.ArrayList.size()\" because \"this.cards\" is null", exception.getMessage());
-    }
 
     @Test
-    void theHelp_WithInValidAmountOfCards() { //Less than 2 cards
-        Deck deck = new Deck();
-        deck.shuffle();
-
-        ArrayList<Card> cards = new ArrayList<Card>();
-        for(int i = 0; i < 1; i++) {
-            cards.add(deck.getCard());
-        }
-
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(cards).theHelp());
-        assertEquals("Index 1 out of bounds for length 1", exception.getMessage());
-    }
-
-    @Test
-    void theAdvice_WithValidAmountOfCards() { //With 5 cards
+    void theAdvice() { //With 5 cards
         Deck deck = new Deck();
         deck.shuffle();
 
@@ -134,13 +95,13 @@ class HandTest {
     }
 
     @Test
-    void theAdvice_WithInputAsNull() { //null
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(null).theAdvice());
+    void Hand_WithInputAsNull() { //null
+        Throwable exception = assertThrows(Exception.class, () -> new Hand(null));
         assertEquals("Cannot invoke \"java.util.ArrayList.size()\" because \"this.cards\" is null", exception.getMessage());
     }
 
     @Test
-    void theAdvice_WithInValidAmountOfCards() { //Less than 2 cards
+    void Hand_WithInValidAmountOfCards() { //Less than 2 cards
         Deck deck = new Deck();
         deck.shuffle();
 
@@ -149,12 +110,12 @@ class HandTest {
             cards.add(deck.getCard());
         }
 
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(cards).theAdvice());
+        Throwable exception = assertThrows(Exception.class, () -> new Hand(cards));
         assertEquals("Index 1 out of bounds for length 1", exception.getMessage());
     }
 
     @Test
-    void getHighlightedCards_WithValidAmountOfCards() { //7 cards
+    void getHighlightedCards() { //7 cards
         Deck deck = new Deck();
         deck.shuffle();
 
@@ -168,27 +129,7 @@ class HandTest {
     }
 
     @Test
-    void getHighlightedCards_WithInputAsNull() { //null
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(null).getHighlightedCards());
-        assertEquals("Cannot invoke \"java.util.ArrayList.size()\" because \"this.cards\" is null", exception.getMessage());
-    }
-
-    @Test
-    void getHighlightedCards_WithInvalidAmountOfCards() { //Less than 2 cards
-        Deck deck = new Deck();
-        deck.shuffle();
-
-        ArrayList<Card> cards = new ArrayList<Card>();
-        for(int i = 0; i < 1; i++) {
-            cards.add(deck.getCard());
-        }
-
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(cards).getHighlightedCards());
-        assertEquals("Index 1 out of bounds for length 1", exception.getMessage());
-    }
-
-    @Test
-    void getHandStrength_WithValidAmountOfCards() { //6 cards
+    void getHandStrength() { //6 cards
         Deck deck = new Deck();
         deck.shuffle();
 
@@ -201,23 +142,4 @@ class HandTest {
         assertTrue(hand.getHandStrenght() >= 0 && hand.getHandStrenght() <= 8);
     }
 
-    @Test
-    void getHandStrength_WithInputAsNull() { //null
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(null).getHandStrenght());
-        assertEquals("Cannot invoke \"java.util.ArrayList.size()\" because \"this.cards\" is null", exception.getMessage());
-    }
-
-    @Test
-    void getHandStrength_WithInvalidAmountOfCards() { //Less than 2 cards
-        Deck deck = new Deck();
-        deck.shuffle();
-
-        ArrayList<Card> cards = new ArrayList<Card>();
-        for(int i = 0; i < 1; i++) {
-            cards.add(deck.getCard());
-        }
-
-        Throwable exception = assertThrows(Exception.class, () -> new Hand(cards).getHandStrenght());
-        assertEquals("Index 1 out of bounds for length 1", exception.getMessage());
-    }
 }
