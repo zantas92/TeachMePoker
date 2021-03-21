@@ -102,6 +102,7 @@ public class HandCalculation {
             allKnownCards.add(cards[i]);
         }
 
+        System.out.println(allKnownCards.size());
         for (int i = 0; i < allKnownCards.size(); i++) {
             int temp = allKnownCards.get(i);
             for (int j = i+1; j < allKnownCards.size(); j++) {
