@@ -396,10 +396,18 @@ class AiDecideTest {
 
         AiDecide decision = new AiDecide(aiCards, 5000, 500, 0, true);
         System.out.println("updateAIPot decision " + decision.decision() + " ");
-        decision.turnTwo();
 
 
-        assertEquals(4500, decision.updateAiPot());
+
+       if(decision.decision().equals("fold")) {
+           assertEquals(5000, decision.updateAiPot());
+       }
+       else if(decision.decision().equals("call,500")) {
+           assertEquals(4500, decision.updateAiPot());
+       }
+       else {
+           assertEquals(4375, decision.updateAiPot());
+       }
     }
 
     /*

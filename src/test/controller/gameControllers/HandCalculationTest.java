@@ -243,7 +243,7 @@ class HandCalculationTest {
                 "'ONE-PAIR' är en ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket. Kör på!\n",
                 "'ONE-PAIR' är en hyfsat ok hand. Om det inte kostar för mycket. Så kör på!\n",
                 "'ONE-PAIR' är en hyfsat ok hand, även då detta är ett lågt par.\nOm det inte kostar för mycket. Så kör på!\n",
-                "'ONE-PAIR'  är en hyfsat ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket. Kör på!\n;",
+                "'ONE-PAIR'  är en hyfsat ok hand. Och detta är även ett högt par vilket är ännu bättre.\nOm det inte kostar för mycket. Kör på!\n",
                 "'TWO PAIRS' är en bra hand, kör på.\n",
                 "'THREE OF A KIND' är en väldigt stark hand. Kör på! Fundera även på att höja!\n",
                 "En 'STRAIGHT' är en riktigt bra hand. Kör på! \nFundera även på att höja!\n",
@@ -264,6 +264,8 @@ class HandCalculationTest {
         for(int i = 0; i < advices.length; i++) {
             adviceList.add(advices[i]);
         }
+
+        System.out.println("ADVICE " + handCalc.advice());
 
         assertTrue(adviceList.contains(handCalc.advice()) || handCalc.advice().contains(advicesAddon[0]) ||
                 handCalc.advice().contains(advicesAddon[1]));
